@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8h8vj7trj4hu"]
+
+[ext_resource type="Script" path="res://scenes/Level.cs" id="1_8n0oy"]
+[ext_resource type="PackedScene" uid="uid://b0r8ogt8lg7tx" path="res://scenes/bird.tscn" id="1_74ogo"]
+[ext_resource type="PackedScene" uid="uid://crv7rvh2h3fhd" path="res://scenes/pipes.tscn" id="2_1k8uv"]
+[ext_resource type="Script" path="res://scenes/Bird.cs" id="2_7avm6"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_8n0oy")
+
+[node name="Bird" parent="." instance=ExtResource("1_74ogo")]
+position = Vector2(59, 320)
+script = ExtResource("2_7avm6")
+
+[node name="Pipes" type="Node2D" parent="."]
+
+[node name="Pipes1" parent="Pipes" instance=ExtResource("2_1k8uv")]
+position = Vector2(320, 311)
+scale = Vector2(6.5, 6.5)
+
+[node name="Pipes2" parent="Pipes" instance=ExtResource("2_1k8uv")]
+position = Vector2(890, 257)
+scale = Vector2(6.5, 6.5)
+
+[node name="Pipes3" parent="Pipes" instance=ExtResource("2_1k8uv")]
+position = Vector2(1460, 377)
+scale = Vector2(6.5, 6.5)
+
+[node name="Pipes4" parent="Pipes" instance=ExtResource("2_1k8uv")]
+position = Vector2(1957, 398)
+scale = Vector2(6.5, 6.5)
