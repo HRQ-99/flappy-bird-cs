@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://dud04to42hjy1"]
+
+[ext_resource type="Texture2D" uid="uid://c0dlapcnt7vjn" path="res://art/flappy_background.png" id="1_1vj0j"]
+[ext_resource type="Script" path="res://scenes/StartScreen.cs" id="1_57y5y"]
+
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_next = NodePath("CenterContainer/StartButton")
+focus_mode = 2
+script = ExtResource("1_57y5y")
+
+[node name="FlappyBackground" type="Sprite2D" parent="."]
+position = Vector2(728, 415.5)
+scale = Vector2(1.75208, 1.4213)
+texture = ExtResource("1_1vj0j")
+
+[node name="CenterContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -137.0
+offset_right = 100.0
+offset_bottom = 137.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="StartButton" type="Button" parent="CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Start"
+
+[node name="OptionButton" type="Button" parent="CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Options"
+
+[node name="AchievementsButton" type="Button" parent="CenterContainer"]
+layout_mode = 2
+text = "Achievements"
+
+[node name="ExitButton" type="Button" parent="CenterContainer"]
+layout_mode = 2
+text = "Exit"
+
+[connection signal="focus_entered" from="CenterContainer/StartButton" to="." method="HoverButton"]
+[connection signal="pressed" from="CenterContainer/StartButton" to="." method="StartGame"]
+[connection signal="pressed" from="CenterContainer/OptionButton" to="." method="OptionsMenu"]
+[connection signal="pressed" from="CenterContainer/AchievementsButton" to="." method="AchievementsButton"]
+[connection signal="pressed" from="CenterContainer/ExitButton" to="." method="ExitGame"]

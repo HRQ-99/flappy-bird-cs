@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://csqfcgbnrl12a"]
+
+[ext_resource type="Texture2D" uid="uid://c0dlapcnt7vjn" path="res://art/flappy_background.png" id="1_godod"]
+[ext_resource type="Script" path="res://scenes/EndScreen.cs" id="1_oyex6"]
+
+[node name="End Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oyex6")
+
+[node name="FlappyBackground" type="Sprite2D" parent="."]
+position = Vector2(1027.5, 550)
+scale = Vector2(1.21823, 1.2963)
+texture = ExtResource("1_godod")
+
+[node name="Score" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -114.0
+offset_top = -111.0
+offset_right = 143.0
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 25
+text = "Your score was "
+
+[node name="RestartMessage" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -191.5
+offset_top = -125.0
+offset_right = 191.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/bold_italics_font_size = 25
+bbcode_enabled = true
+text = "[b][i]Press Space to start again 
+
+Press Esc to exit the game"
+fit_content = true

@@ -4,14 +4,12 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jk5ia"]
 
-[node name="Bird" type="Node2D"]
+[node name="Bird" type="CharacterBody2D"]
 
-[node name="BirdImage" type="Sprite2D" parent="."]
+[node name="BirdSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_hixcj")
 
-[node name="BirdCollision" type="Area2D" parent="."]
-
-[node name="BirdHitbox" type="CollisionShape2D" parent="BirdCollision"]
+[node name="BirdHitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 4)
 scale = Vector2(2.4, 2.4)
 shape = SubResource("CircleShape2D_jk5ia")

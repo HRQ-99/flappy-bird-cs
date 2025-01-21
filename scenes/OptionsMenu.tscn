@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://cun5xrfoeanl7"]
+
+[ext_resource type="Texture2D" uid="uid://c0dlapcnt7vjn" path="res://art/flappy_background.png" id="1_nncy7"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FlappyBackground" type="Sprite2D" parent="."]
+position = Vector2(712, 338)
+texture = ExtResource("1_nncy7")
+
+[node name="MenuContainer" type="MenuBar" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuTabs" type="TabContainer" parent="MenuContainer"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 686.0
+grow_vertical = 2
+current_tab = 0
+clip_tabs = false
+
+[node name="Display" type="MenuButton" parent="MenuContainer/MenuTabs"]
+layout_mode = 2
+toggle_mode = false
+text = "gt"
+item_count = 2
+popup/item_0/text = "e1"
+popup/item_1/text = "e2"
+popup/item_1/id = 1
+metadata/_tab_index = 0
