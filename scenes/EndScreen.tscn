@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://csqfcgbnrl12a"]
 
 [ext_resource type="Texture2D" uid="uid://c0dlapcnt7vjn" path="res://art/flappy_background.png" id="1_godod"]
-[ext_resource type="Script" path="res://scenes/EndScreen.cs" id="1_oyex6"]
+[ext_resource type="Script" path="res://scripts/EndScreen.cs" id="1_oyex6"]
 
 [node name="End Screen" type="Control"]
 layout_mode = 3

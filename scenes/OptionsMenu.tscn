@@ -1,42 +1,203 @@
-[gd_scene load_steps=2 format=3 uid="uid://cun5xrfoeanl7"]
+[gd_scene load_steps=4 format=3 uid="uid://b1eehm1dkgsua"]
 
-[ext_resource type="Texture2D" uid="uid://c0dlapcnt7vjn" path="res://art/flappy_background.png" id="1_nncy7"]
+[ext_resource type="Theme" uid="uid://7xvyjg4jos0g" path="res://theme/ButtonTheme.tres" id="1_46ch8"]
+[ext_resource type="Script" path="res://scripts/OptionsMenu.cs" id="1_xmr6o"]
+[ext_resource type="Texture2D" uid="uid://cdnrggovqtkqh" path="res://art/background_2.png" id="3_gxgm1"]
 
-[node name="OptionsMenu" type="Control"]
-layout_mode = 3
+[node name="OptionsMenu" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_46ch8")
+script = ExtResource("1_xmr6o")
 
-[node name="FlappyBackground" type="Sprite2D" parent="."]
-position = Vector2(712, 338)
-texture = ExtResource("1_nncy7")
-
-[node name="MenuContainer" type="MenuBar" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MenuTabs" type="TabContainer" parent="MenuContainer"]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 686.0
-grow_vertical = 2
-current_tab = 0
-clip_tabs = false
-
-[node name="Display" type="MenuButton" parent="MenuContainer/MenuTabs"]
+[node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
-toggle_mode = false
-text = "gt"
-item_count = 2
-popup/item_0/text = "e1"
-popup/item_1/text = "e2"
-popup/item_1/id = 1
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+current_tab = 0
+
+[node name="Display" type="MarginContainer" parent="TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 metadata/_tab_index = 0
+
+[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/Display"]
+layout_mode = 2
+
+[node name="WindowModeContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+layout_mode = 2
+split_offset = 600
+dragger_visibility = 2
+
+[node name="WindowModeLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/WindowModeContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+text = "Window Mode"
+fit_content = true
+
+[node name="WindowModeOptionButton" type="OptionButton" parent="TabContainer/Display/DisplayVBox/WindowModeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+selected = 0
+item_count = 4
+popup/item_0/text = "Exclusive Fullscreen"
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "Windowed"
+popup/item_2/id = 2
+popup/item_3/text = "Maximised"
+popup/item_3/id = 3
+
+[node name="ResolutionContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+visible = false
+layout_mode = 2
+split_offset = 600
+dragger_visibility = 2
+
+[node name="ResolutionLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/ResolutionContainer"]
+layout_mode = 2
+tooltip_text = "Only changes the size of window"
+theme_override_font_sizes/normal_font_size = 20
+text = "Resolution"
+fit_content = true
+
+[node name="ResolutionOptionButton" type="OptionButton" parent="TabContainer/Display/DisplayVBox/ResolutionContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+toggle_mode = false
+selected = 1
+item_count = 4
+popup/item_0/text = "1280x720"
+popup/item_1/text = "1920x1080"
+popup/item_1/id = 1
+popup/item_2/text = "2560x1440"
+popup/item_2/id = 2
+popup/item_3/text = "3840x2160"
+popup/item_3/id = 3
+
+[node name="V-SyncContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+layout_mode = 2
+split_offset = 600
+dragger_visibility = 2
+
+[node name="VsyncLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/V-SyncContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+text = "V-Sync"
+fit_content = true
+
+[node name="VsyncOptionButton" type="CheckBox" parent="TabContainer/Display/DisplayVBox/V-SyncContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CustomCursorContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+layout_mode = 2
+split_offset = 600
+dragger_visibility = 2
+
+[node name="CustomCursorLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/CustomCursorContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+text = "Custom Cursor
+"
+fit_content = true
+
+[node name="CustomCursorOptionButton" type="CheckBox" parent="TabContainer/Display/DisplayVBox/CustomCursorContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+button_pressed = true
+
+[node name="Audio" type="MarginContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 1
+
+[node name="AudioVBox" type="VBoxContainer" parent="TabContainer/Audio"]
+layout_mode = 2
+
+[node name="MasterVolumeContainer" type="HSplitContainer" parent="TabContainer/Audio/AudioVBox"]
+layout_mode = 2
+split_offset = 300
+
+[node name="Label" type="Label" parent="TabContainer/Audio/AudioVBox/MasterVolumeContainer"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/Audio/AudioVBox/MasterVolumeContainer"]
+layout_mode = 2
+rounded = true
+ticks_on_borders = true
+
+[node name="MusicVolumeContainer" type="HSplitContainer" parent="TabContainer/Audio/AudioVBox"]
+layout_mode = 2
+split_offset = 300
+
+[node name="Label" type="Label" parent="TabContainer/Audio/AudioVBox/MusicVolumeContainer"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/Audio/AudioVBox/MusicVolumeContainer"]
+layout_mode = 2
+
+[node name="EffectsVolumeContainer" type="HSplitContainer" parent="TabContainer/Audio/AudioVBox"]
+layout_mode = 2
+split_offset = 300
+
+[node name="Label" type="Label" parent="TabContainer/Audio/AudioVBox/EffectsVolumeContainer"]
+layout_mode = 2
+text = "Effects Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/Audio/AudioVBox/EffectsVolumeContainer"]
+layout_mode = 2
+
+[node name="Input" type="MarginContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 2
+
+[node name="InputVBox" type="VBoxContainer" parent="TabContainer/Input"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RestoreDefaultsButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "Restore Defaults"
+
+[node name="BackButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "Back"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="FlappyBackground" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(153, 144)
+texture = ExtResource("3_gxgm1")
+
+[connection signal="item_selected" from="TabContainer/Display/DisplayVBox/WindowModeContainer/WindowModeOptionButton" to="." method="ChangeWindowMode"]
+[connection signal="item_selected" from="TabContainer/Display/DisplayVBox/ResolutionContainer/ResolutionOptionButton" to="." method="ChangeResolution"]
+[connection signal="toggled" from="TabContainer/Display/DisplayVBox/V-SyncContainer/VsyncOptionButton" to="." method="ToggleVSync"]
+[connection signal="toggled" from="TabContainer/Display/DisplayVBox/CustomCursorContainer/CustomCursorOptionButton" to="." method="ToggleCustomCursor"]
+[connection signal="pressed" from="HBoxContainer/RestoreDefaultsButton" to="." method="RestoreDefaultConfig"]
+[connection signal="pressed" from="HBoxContainer/BackButton" to="." method="GoBackToTitleMenu"]

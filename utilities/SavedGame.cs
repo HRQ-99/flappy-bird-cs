@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+
 using Godot;
+using Godot.Collections;
 
 public partial class SavedGame : Resource {
-    [Export] public int attemptNumber;
-    [Export] public int score;
+    [Export]public Array<int> attemptNumber = new();
+    [Export]public Array<int> score = new();
 }

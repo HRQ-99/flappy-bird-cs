@@ -3,10 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://db85vu15bmd0x" path="res://art/pipe.png" id="1_uey0e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1gobb"]
-size = Vector2(2, 7)
+size = Vector2(2, 7.04546)
 
 [node name="Pipe" type="StaticBody2D"]
-light_mask = 2
+position = Vector2(12, -64)
 collision_layer = 2
 collision_mask = 0
 
@@ -14,7 +14,7 @@ collision_mask = 0
 texture = ExtResource("1_uey0e")
 
 [node name="PipeHitbox" type="CollisionShape2D" parent="."]
-position = Vector2(3.21865e-06, 25.5)
+position = Vector2(9.82285e-05, 25.25)
 rotation = -3.14159
 scale = Vector2(11, 11)
 shape = SubResource("RectangleShape2D_1gobb")

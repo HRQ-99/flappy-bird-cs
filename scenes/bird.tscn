@@ -1,15 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0r8ogt8lg7tx"]
+[gd_scene load_steps=2 format=3 uid="uid://b0r8ogt8lg7tx"]
 
-[ext_resource type="Texture2D" uid="uid://y8dtd584ekk4" path="res://art/bird.png" id="1_hixcj"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_jk5ia"]
+[ext_resource type="Texture2D" uid="uid://cu57srl6p8bit" path="res://art/Bird.png" id="1_q2kp6"]
 
 [node name="Bird" type="CharacterBody2D"]
+scale = Vector2(0.25, 0.25)
 
 [node name="BirdSprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_hixcj")
+texture = ExtResource("1_q2kp6")
 
-[node name="BirdHitbox" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 4)
+[node name="BirdHitbox" type="CollisionPolygon2D" parent="."]
+position = Vector2(4, 28)
 scale = Vector2(2.4, 2.4)
-shape = SubResource("CircleShape2D_jk5ia")
+polygon = PackedVector2Array(-1.25, -37.9167, 4.16667, -37.9167, 9.58333, -37.0833, 15.8333, -35.4167, 23.75, -31.6667, 30.4167, -27.0833, 35.4167, -21.6667, 38.3333, -17.5, 41.25, -11.6667, 42.5, -6.66667, 43.3333, -2.91667, 45.4167, -1.66667, 48.75, -0.416667, 45.4167, 1.66667, 43.3333, 3.33333, 42.5, 7.08333, 40.4167, 13.75, 37.5, 18.75, 30.8333, 26.6667, 21.6667, 32.9167, 11.6667, 36.6667, 3.75, 38.3333, -7.91667, 37.9167, -21.6667, 33.3333, -30.4167, 27.5, -39.1667, 17.0833, -42.0833, 11.25, -43.3333, 4.16667, -43.3333, -3.75, -41.25, -12.0833, -38.75, -17.5, -35, -22.5, -29.5833, -27.9167, -23.3333, -32.0833, -17.5, -34.5833, -11.6667, -36.25, -7.08333, -37.5)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+limit_smoothed = true
+position_smoothing_enabled = true
