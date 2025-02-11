@@ -10,7 +10,7 @@ public partial class Level : Node2D {
   private int gapBetweenPipeY = 10;
   private int nextPipeLocationX = 450;
   private int DifficultyStage = 0;
-  private int minimumSpaceBetweenPipes = 150;
+  private int minimumSpaceBetweenPipes = 65;
 
   private const int MaxPipeNumbers = 7;
 
@@ -24,6 +24,8 @@ public partial class Level : Node2D {
   private Sprite2D backgroundSprite;
 
   public override void _Ready() {
+    Global.Music.Stream = Global.levelMusicFile;
+    Global.Music.Play();
     Bird = GetNode<CharacterBody2D>("Bird");
     PipesSet = GetNode<Node2D>("PipesSet");
     for (int i = 0; i <= 4; i++) {
@@ -31,35 +33,42 @@ public partial class Level : Node2D {
       PipesSet.AddChild(pipes);
       pipes.GlobalPosition = new Vector2(nextPipeLocationX, pipes.GlobalPosition.Y);
       nextPipeLocationX += movePipeDistanceX;
-}
+    }
 
     BackgroundBoundaries = GetNode<StaticBody2D>("BackgroundBoundary");
     PausedScreen = GetNode<Control>("UI/PausedScreenLayer/PausedScreen/PausedScreenButtonContainer");
     backgroundSprite = GetNode<Sprite2D>("UI/BackgroundLayer/FlappyBackground");
     backgroundShaderMaterial = (ShaderMaterial)backgroundSprite.Material;
+
+    Input.MouseMode = Input.MouseModeEnum.Captured;
   }
 
   public override void _Process(double delta) {
     if (Bird.Position.Y > 1000) {
-      Color redBackground = new(0.97f, 0.2f, 0.2f, 0.9f);
+      Color redBackground = new(0.97f, 0.0f, 0.0f, 1.0f);
       backgroundShaderMaterial.SetShaderParameter("applyRedHue", true);
       backgroundShaderMaterial.SetShaderParameter("redBackground", redBackground);
-      CreateTween();
-      //TODO creeat tween
+      backgroundShaderMaterial.SetShaderParameter("blend", Bird.Position.Y * 0.0008);
     }
     else {
       backgroundShaderMaterial.SetShaderParameter("applyRedHue", false);
     }
+
     if (BackgroundBoundaries.GlobalPosition.X - Bird.GlobalPosition.X < -1000) {
       BackgroundBoundaries.MoveLocalX(2000);
     }
+
     foreach (Node2D pipe in PipesSet.GetChildren().Cast<Node2D>()) {
       if (Bird.GlobalPosition.X - pipe.GlobalPosition.X > 1500) {
-        GD.Print(pipe.Position, pipe.GlobalPosition);
         PipesSet.RemoveChild(pipe);
         pipe.QueueFree();
+        Node2D nextPipe = makePipePair();
+        PipesSet.AddChild(nextPipe);
+        nextPipe.GlobalPosition = new Vector2(nextPipeLocationX, nextPipe.GlobalPosition.Y);
+        nextPipeLocationX += movePipeDistanceX;
       }
     }
+
   }
 
   private static int RandomInt(float min, float max) {
@@ -77,9 +86,13 @@ public partial class Level : Node2D {
 
     Node2D pipePair = new() {
       GlobalPosition = new Vector2(0, 300),
-      Scale = new Vector2(4, 6)
+      Scale = new Vector2(5, 7)
     };
 
+    // float currentGapLessThanMinimum = bottomPipe.Position.Y - topPipe.Position.Y - minimumSpaceBetweenPipes;
+    // if (currentGapLessThanMinimum < -10) {
+    //   bottomPipe.Position = new Vector2(bottomPipe.Position.X, bottomPipe.Position.Y + currentGapLessThanMinimum);
+    // }
     pipePair.AddChild(topPipe);
     pipePair.AddChild(bottomPipe);
     return pipePair;
@@ -91,6 +104,19 @@ public partial class Level : Node2D {
       GetTree().Paused = !GamePaused;
       PausedScreen.Visible = !GamePaused;
       GamePaused = !GamePaused;
+
+      switch (GamePaused) {
+        case true:
+          Input.MouseMode = Input.MouseModeEnum.Visible;
+          break;
+        case false:
+          Input.MouseMode = Input.MouseModeEnum.Captured;
+          break;
+      }
+    }
+
+    if (Input.IsActionJustPressed("Restart")) {
+      PressedRestartButton();
     }
   }
 
@@ -132,5 +158,12 @@ public partial class Level : Node2D {
 
   private void ChangeShader() {
     // background.Material
+  }
+
+  private void SpawnPowerUp() {
+    PackedScene powerUpScene = GD.Load<PackedScene>("scenes/SpeedBoostPowerUp.tscn");
+    Node2D powerUp = (Node2D)powerUpScene.Instantiate();
+    powerUp.Position = new Vector2(Bird.Position.X + 500, 500);
+    AddChild(powerUp);
   }
 }

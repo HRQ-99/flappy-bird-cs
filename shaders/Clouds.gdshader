@@ -14,7 +14,7 @@ void fragment() {
 		vec4 outputColor=vec4(inputColor.r,inputColor.g,inputColor.b,max(0.5,sin(TIME)));
 		COLOR=outputColor;
 	}
-	
+
 	//
 	//vec3 c = textureLod(TEXTURE, SCREEN_UV, 0.0).rgb;
 	//c.r=sin(TIME);

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgme4gg62lprm"]
+
+[ext_resource type="Script" path="res://scripts/PowerUps/BoostTrail.cs" id="1_ua8ek"]
+
+[sub_resource type="Curve" id="Curve_so1je"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="BoostTrail" type="Line2D"]
+top_level = true
+position = Vector2(0, 16)
+points = PackedVector2Array(0, 1, 224, 223)
+width = 128.0
+width_curve = SubResource("Curve_so1je")
+default_color = Color(0.854902, 0.482353, 0.313726, 0.313726)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+round_precision = 24
+antialiased = true
+script = ExtResource("1_ua8ek")

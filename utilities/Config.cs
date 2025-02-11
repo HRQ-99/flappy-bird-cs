@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-// [Tool]
-public struct Config {
-  // public partial class Config : Resource {
+[Tool]
+// public struct Config {
+public partial class Config : Resource {
 
   public static readonly Dictionary<string, Vector2I> Resolutions = new() {
     { "1280x720", new Vector2I(1280, 720) },
@@ -22,6 +22,14 @@ public struct Config {
      {"Maximised", DisplayServer.WindowMode.Maximized},
     });
 
+  public static readonly Dictionary<string, string> InputKeys = new() {
+    { "Flap","Flap" },
+    { "Upkey","Up (UI)" },
+    { "Downkey","Down (UI)" },
+    { "Restart","Play Again" },
+    { "GodMode","Toggle Godmode" },
+  };
+
   [Export] public Vector2I GameResolution = DisplayServer.ScreenGetSize();
   [Export] public DisplayServer.WindowMode WindowMode = DisplayServer.WindowMode.ExclusiveFullscreen;
   [Export] public DisplayServer.VSyncMode Vsync = DisplayServer.VSyncMode.Disabled;
@@ -29,6 +37,7 @@ public struct Config {
   [Export] public int MasterVolume = 100;
   [Export] public int MusicVolume = 100;
   [Export] public int EffectsVolume = 100;
+  public const int baseVolume = 100;
   // [Export] public string VolumeOutputDevice;
 
   public Config() {

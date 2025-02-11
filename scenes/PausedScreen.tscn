@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://yhbldw448mdq"]
-
-[ext_resource type="Theme" uid="uid://7xvyjg4jos0g" path="res://theme/ButtonTheme.tres" id="1_d4m3p"]
+[gd_scene format=3 uid="uid://yhbldw448mdq"]
 
 [node name="PausedScreen" type="Control"]
 process_mode = 3
@@ -10,7 +8,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_d4m3p")
 
 [node name="PausedScreenButtonContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -29,21 +26,17 @@ theme_override_constants/separation = 50
 
 [node name="ResumeButton" type="Button" parent="PausedScreenButtonContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
 action_mode = 0
 text = "Resume"
 
 [node name="RestartButton" type="Button" parent="PausedScreenButtonContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Restart"
 
 [node name="BackToTitleButton" type="Button" parent="PausedScreenButtonContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Back to Title Screen"
 
 [node name="ExitButton" type="Button" parent="PausedScreenButtonContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Exit"

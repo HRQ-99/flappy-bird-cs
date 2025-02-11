@@ -8,18 +8,33 @@ public partial class Bird : CharacterBody2D {
   [Export] private float fallSpeed = 100f;
   [Export] private float flySpeed = -1500f;
   [Export] private float moveSpeed = 150f;
-  [Export] private bool Invincible = false;
+  [Export] private float diveMultiplier = 5;
+
+  public static bool Invincible = false;
+  public static float SpeedMultiplier = 1.0f;
+  public static float gravityMultiplier = 1.0f;
+
+  enum RotationDirection { Up = -1, Down = 1 }
 
   public override void _Ready() {
     birdCollision = this;
+    Invincible = false;
+    SpeedMultiplier = 1;
+    gravityMultiplier = 1;
   }
 
   public override void _PhysicsProcess(double delta) {
-    Velocity = new Vector2(moveSpeed, fallSpeed);
+    Velocity = new Vector2(moveSpeed * SpeedMultiplier, fallSpeed * gravityMultiplier);
 
     if (Input.IsActionJustPressed("Flap")) {
+      SpriteRotation((int)RotationDirection.Up);
       Velocity = new Vector2(0, flySpeed);
     }
+    else if (Input.IsActionJustPressed("Dive")) {
+      SpriteRotation((int)RotationDirection.Down);
+      Velocity = new Vector2(moveSpeed, fallSpeed * diveMultiplier);
+    }
+
     if (Input.IsActionJustPressed("GodMode")) {
       Invincible = !Invincible;
       GetTree().CurrentScene.GetNode<RichTextLabel>("UI/ScoreContainer/Godmode").Visible = Invincible;
@@ -27,10 +42,12 @@ public partial class Bird : CharacterBody2D {
 
     if (MoveAndSlide() && !Invincible) {
       birdCollision.GetSlideCollision(0);
-      var lastHit = birdCollision.GetLastSlideCollision();
+      KinematicCollision2D lastHit = birdCollision.GetLastSlideCollision();
+
       if (lastHit != null) {
-        var collider = lastHit.GetCollider() as Node;
+        Node collider = lastHit.GetCollider() as Node;
         if (collider.Name != "BackgroundBoundary") {
+          Input.MouseMode = Input.MouseModeEnum.Visible;
           SaveScore();
           GetTree().ChangeSceneToFile("scenes/EndScreen.tscn");
         }
@@ -53,6 +70,11 @@ public partial class Bird : CharacterBody2D {
     newSave.attemptNumber.Add(Global.GlobalAttemptNumber);
     newSave.score.Add(Global.GlobalScore);
     ResourceSaver.Save(newSave, Global.SAVE_DIRE);
+  }
+
+  private void SpriteRotation(int direction) {
+    Tween rotateSpriteDown = CreateTween();
+    rotateSpriteDown.TweenProperty(this, "rotation", 0.25 * direction, 0.15);
   }
 
   public void IncreaseBirdMoveSpeed(int stage) {

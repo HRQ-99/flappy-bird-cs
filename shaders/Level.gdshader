@@ -1,22 +1,16 @@
 shader_type canvas_item;
+
 uniform bool applyRedHue;
 uniform vec4 redBackground;
-
-void vertex() {
-	// Called for every vertex the material is visible on.
-}
+uniform float blend;
 
 void fragment() {
-	vec4 inputColor=texture(TEXTURE,UV);
-	if (applyRedHue){
-		COLOR=mix(inputColor,redBackground,0.3);
-	}
-	else {
-		COLOR=inputColor;
-		}
-	}
+    vec4 inputColor = texture(TEXTURE, UV);
+	float inputPosition=FRAGCOORD.y*SCREEN_UV.y;
 
-//void light() {
-	// Called for every pixel for every light affecting the CanvasItem.
-	// Uncomment to replace the default light processing function with this one.
-//}
+    if (applyRedHue && inputPosition > 330.0) {
+        COLOR=mix(inputColor,redBackground,inputColor.a * blend * 0.3* sin(TIME) );
+    } else {
+        COLOR = inputColor;
+    }
+}

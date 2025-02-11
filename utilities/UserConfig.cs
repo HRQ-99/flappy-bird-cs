@@ -27,17 +27,6 @@ public partial class UserConfig : Node {
   }
 
   public void CreateDefaultConfig() {
-    foreach (var pair in Config.Resolutions) {
-      GD.Print(pair);
-    }
-    string UserResolution = DisplayServer.ScreenGetSize().X + "x" + DisplayServer.ScreenGetSize().Y;
-    GD.Print(UserResolution);
-    if (Config.Resolutions.ContainsKey(UserResolution)) {
-      Config.Resolutions[UserResolution] = DisplayServer.ScreenGetSize();
-    }
-    foreach (var pair in Config.Resolutions) {
-      GD.Print(pair);
-    }
     // config.SetValue(Sections.display.ToString(), Options.Resolution.ToString(), "x");
     config.SetValue(Sections.display.ToString(), Options.WindowMode.ToString(), DisplayServer.WindowMode.ExclusiveFullscreen.ToString());
     config.SetValue(Sections.display.ToString(), Options.VSync.ToString(), false);
@@ -47,19 +36,39 @@ public partial class UserConfig : Node {
 
   public Dictionary<string, Variant> LoadDisplayConfig() {
     Dictionary<string, Variant> displaySettings = new();
-    foreach (string key in config.GetSectionKeys("display")) {
-      displaySettings[key] = config.GetValue("display", key);
+
+    if (!config.HasSection(Sections.display.ToString())) { CreateDefaultConfig(); }
+
+    foreach (string key in config.GetSectionKeys(Sections.display.ToString())) {
+      displaySettings[key] = config.GetValue(Sections.display.ToString(), key);
     }
     return displaySettings;
   }
 
+
+  public Dictionary<string, Variant> LoadAudioConfig() {
+    Dictionary<string, Variant> audioSettings = new();
+
+    if (!config.HasSection(Sections.audio.ToString())) { CreateDefaultConfig(); }
+
+    foreach (string key in config.GetSectionKeys(Sections.audio.ToString())) {
+      audioSettings[key] = config.GetValue(Sections.audio.ToString(), key);
+    }
+    return audioSettings;
+  }
+
   public void SaveDisplayConfig(string key, Variant value) {
-    config.SetValue("display", key, value);
+    config.SetValue(Sections.display.ToString(), key, value);
+    config.Save(SETTINGS_PATH);
+  }
+
+  public void SaveAudioConfig(string key, Variant value) {
+    config.SetValue(Sections.audio.ToString(), key, value);
     config.Save(SETTINGS_PATH);
   }
 
   public void LoadUserConfig() {
-    var displaySettings = LoadDisplayConfig();
+    Dictionary<string, Variant> displaySettings = LoadDisplayConfig();
 
     if (Enum.TryParse<DisplayServer.WindowMode>((string)displaySettings[Options.WindowMode.ToString()], true, out DisplayServer.WindowMode mode)) {
       DisplayServer.WindowSetMode(mode);
@@ -73,5 +82,8 @@ public partial class UserConfig : Node {
     else {
       DisplayServer.WindowSetMode(DisplayServer.WindowMode.ExclusiveFullscreen);
     }
+
+    Dictionary<string, Variant> audioSettings = LoadAudioConfig();
+    // config;
   }
 }

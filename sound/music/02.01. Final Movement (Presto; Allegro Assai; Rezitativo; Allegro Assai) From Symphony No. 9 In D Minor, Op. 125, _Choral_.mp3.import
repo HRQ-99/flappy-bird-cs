@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0mg6hd1r2me7"
+path="res://.godot/imported/02.01. Final Movement (Presto; Allegro Assai; Rezitativo; Allegro Assai) From Symphony No. 9 In D Minor, Op. 125, _Choral_.mp3-8b930f223a23205443bf2581a1f14a17.mp3str"
+
+[deps]
+
+source_file="res://sound/music/02.01. Final Movement (Presto; Allegro Assai; Rezitativo; Allegro Assai) From Symphony No. 9 In D Minor, Op. 125, _Choral_.mp3"
+dest_files=["res://.godot/imported/02.01. Final Movement (Presto; Allegro Assai; Rezitativo; Allegro Assai) From Symphony No. 9 In D Minor, Op. 125, _Choral_.mp3-8b930f223a23205443bf2581a1f14a17.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

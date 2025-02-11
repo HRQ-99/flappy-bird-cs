@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cpp3jrxk4yulg"
+path="res://.godot/imported/01.02. Minuet In G.mp3-aa3016eff7c74d746e8bf1bbb88f666d.mp3str"
+
+[deps]
+
+source_file="res://sound/music/01.02. Minuet In G.mp3"
+dest_files=["res://.godot/imported/01.02. Minuet In G.mp3-aa3016eff7c74d746e8bf1bbb88f666d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

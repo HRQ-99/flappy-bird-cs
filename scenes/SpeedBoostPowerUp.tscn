@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dywnd1h8c6fxb"]
+
+[ext_resource type="Script" path="res://scripts/PowerUps/SpeedBoostPowerUp.cs" id="1_xbh5o"]
+[ext_resource type="Texture2D" uid="uid://cdp0fjtamws13" path="res://art/cloud_1.png" id="2_ydc3g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pofki"]
+size = Vector2(63, 33)
+
+[node name="SpeedBoostPowerUp" type="Area2D" groups=["PowerUp"]]
+script = ExtResource("1_xbh5o")
+
+[node name="SpeedBoostSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_ydc3g")
+
+[node name="SpeedBoostCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-5.5, 6.5)
+shape = SubResource("RectangleShape2D_pofki")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="body_entered" from="." to="." method="PowerActivate"]
+[connection signal="timeout" from="Timer" to="." method="PowerExpired"]

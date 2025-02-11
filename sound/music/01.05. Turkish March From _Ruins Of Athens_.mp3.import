@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cud041k5w0rjm"
+path="res://.godot/imported/01.05. Turkish March From _Ruins Of Athens_.mp3-7380105a13f6c2502201e3a78c7dced4.mp3str"
+
+[deps]
+
+source_file="res://sound/music/01.05. Turkish March From _Ruins Of Athens_.mp3"
+dest_files=["res://.godot/imported/01.05. Turkish March From _Ruins Of Athens_.mp3-7380105a13f6c2502201e3a78c7dced4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

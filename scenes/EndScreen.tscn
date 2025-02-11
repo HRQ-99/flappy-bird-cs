@@ -17,37 +17,35 @@ position = Vector2(1027.5, 550)
 scale = Vector2(1.21823, 1.2963)
 texture = ExtResource("1_godod")
 
-[node name="Score" type="RichTextLabel" parent="."]
+[node name="EndScreenCenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 13
 anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -114.0
-offset_top = -111.0
-offset_right = 143.0
-offset_bottom = -61.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 25
-text = "Your score was "
-
-[node name="RestartMessage" type="RichTextLabel" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -191.5
-offset_top = -125.0
-offset_right = 191.5
+offset_left = -80.0
+offset_top = 234.0
+offset_right = 130.0
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/bold_italics_font_size = 25
+grow_vertical = 2
+
+[node name="EndScreenVBox" type="VBoxContainer" parent="EndScreenCenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Score" type="RichTextLabel" parent="EndScreenCenterContainer/EndScreenVBox"]
+custom_minimum_size = Vector2(210, 200)
+layout_mode = 2
+size_flags_vertical = 6
 bbcode_enabled = true
-text = "[b][i]Press Space to start again 
+text = "[i]Your score was "
+
+[node name="RestartMessage" type="RichTextLabel" parent="EndScreenCenterContainer/EndScreenVBox"]
+custom_minimum_size = Vector2(210, 100)
+layout_mode = 2
+size_flags_vertical = 6
+bbcode_enabled = true
+text = "Press Space to start again 
 
 Press Esc to exit the game"
 fit_content = true

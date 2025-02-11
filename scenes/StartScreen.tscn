@@ -1,15 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dud04to42hjy1"]
+[gd_scene load_steps=3 format=3 uid="uid://dud04to42hjy1"]
 
 [ext_resource type="Script" path="res://scripts/StartScreen.cs" id="1_57y5y"]
 [ext_resource type="Texture2D" uid="uid://cdnrggovqtkqh" path="res://art/background_2.png" id="2_i4884"]
-[ext_resource type="Theme" uid="uid://7xvyjg4jos0g" path="res://theme/ButtonTheme.tres" id="3_bt2yr"]
 
 [node name="StartScreen" type="CanvasLayer"]
 follow_viewport_enabled = true
 script = ExtResource("1_57y5y")
 
 [node name="FlappyBackground" type="Sprite2D" parent="."]
-position = Vector2(314, 151)
+position = Vector2(476.5, 266)
+scale = Vector2(0.524479, 0.55)
 texture = ExtResource("2_i4884")
 
 [node name="CenterContainer" type="VBoxContainer" parent="."]
@@ -26,31 +26,23 @@ offset_bottom = 107.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
-theme = ExtResource("3_bt2yr")
 theme_override_constants/separation = 20
 alignment = 1
 
 [node name="StartButton" type="Button" parent="CenterContainer"]
 layout_mode = 2
-theme = ExtResource("3_bt2yr")
-theme_override_font_sizes/font_size = 15
 text = "Start"
 
 [node name="OptionsButton" type="Button" parent="CenterContainer"]
 layout_mode = 2
-theme = ExtResource("3_bt2yr")
-theme_override_font_sizes/font_size = 15
 text = "Options"
 
 [node name="AchievementButton" type="Button" parent="CenterContainer"]
 layout_mode = 2
-theme = ExtResource("3_bt2yr")
-theme_override_font_sizes/font_size = 15
 text = "Achievements"
 
 [node name="ExitButton" type="Button" parent="CenterContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
 text = "Exit"
 
 [connection signal="pressed" from="CenterContainer/StartButton" to="." method="StartGame"]

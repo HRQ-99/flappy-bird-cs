@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dxwdxckcl0hko"
+path="res://.godot/imported/01.01. First Movement (Allegro Con Brio) From Symphony No. 5 In C Minor, Op. 67.mp3-089c49ff4db0b8a0deb21c016947bd4d.mp3str"
+
+[deps]
+
+source_file="res://sound/music/01.01. First Movement (Allegro Con Brio) From Symphony No. 5 In C Minor, Op. 67.mp3"
+dest_files=["res://.godot/imported/01.01. First Movement (Allegro Con Brio) From Symphony No. 5 In C Minor, Op. 67.mp3-089c49ff4db0b8a0deb21c016947bd4d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

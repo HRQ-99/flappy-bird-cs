@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cu57srl6p8bit" path="res://art/Bird.png" id="1_q2kp6"]
 
-[node name="Bird" type="CharacterBody2D"]
+[node name="Bird" type="CharacterBody2D" groups=["Bird"]]
 scale = Vector2(0.25, 0.25)
 
 [node name="BirdSprite" type="Sprite2D" parent="."]
