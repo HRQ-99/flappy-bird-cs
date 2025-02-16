@@ -1,6 +1,4 @@
 using Godot;
-using Godot.Collections;
-using System.Collections.Generic;
 using System.Linq;
 
 public partial class Bird : CharacterBody2D {
@@ -46,7 +44,7 @@ public partial class Bird : CharacterBody2D {
 
       if (lastHit != null) {
         Node collider = lastHit.GetCollider() as Node;
-        if (collider.Name != "BackgroundBoundary") {
+        if (collider.Name != "Boundary") {
           Input.MouseMode = Input.MouseModeEnum.Visible;
           SaveScore();
           GetTree().ChangeSceneToFile("scenes/EndScreen.tscn");
@@ -73,12 +71,12 @@ public partial class Bird : CharacterBody2D {
   }
 
   private void SpriteRotation(int direction) {
-    Tween rotateSpriteDown = CreateTween();
-    rotateSpriteDown.TweenProperty(this, "rotation", 0.25 * direction, 0.15);
+    Tween rotateSprite = CreateTween();
+    rotateSprite.TweenProperty(this, "rotation", 0.25 * direction, 0.15);
+    rotateSprite.TweenProperty(this, "rotation", 0, 0.25);
   }
 
-  public void IncreaseBirdMoveSpeed(int stage) {
-    Array<float> moveSpeedChanges = new Array<float> { 170f, 185f, 200f };
-    moveSpeed = moveSpeedChanges[stage];
+  public void IncreaseBirdMoveSpeed() {
+    moveSpeed = DifficultyManager.BirdMoveSpeed[DifficultyManager.DifficultyStage];
   }
 }

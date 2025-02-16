@@ -1,21 +1,18 @@
 using Godot;
-using Godot.Collections;
 using System.Linq;
 
 public partial class Level : Node2D {
   private bool GamePaused = false;
   private int score = 0;
-  private int movePipeDistanceX = 800;
+  private float movePipeDistanceX = 800;
   private int bottomPipePositionY = 50;
   private int gapBetweenPipeY = 10;
-  private int nextPipeLocationX = 450;
-  private int DifficultyStage = 0;
-  private int minimumSpaceBetweenPipes = 65;
+  private float nextPipeLocationX = 450;
+  private float minimumSpaceBetweenPipes = 55;
 
-  private const int MaxPipeNumbers = 7;
+  private const int MaxPipeNumbers = 5;
 
   CharacterBody2D Bird;
-  StaticBody2D BackgroundBoundaries;
   Node2D PipesSet;
   Control PausedScreen;
   readonly PackedScene pipeScene = (PackedScene)GD.Load("scenes/Pipe.tscn");
@@ -23,24 +20,31 @@ public partial class Level : Node2D {
   private ShaderMaterial backgroundShaderMaterial;
   private Sprite2D backgroundSprite;
 
+  [Signal] public delegate void IncreaseDifficultyEventHandler();
+  [Signal] public delegate void DifficultyIncreasedEventHandler();
+
   public override void _Ready() {
-    Global.Music.Stream = Global.levelMusicFile;
-    Global.Music.Play();
+    GetTree().Root.GetNode<Node>("Global").EmitSignal(nameof(Global.MusicChanged));
+    // Global.Music.Stream = Global.levelMusicFile;
+    // Global.Music.Play();
     Bird = GetNode<CharacterBody2D>("Bird");
     PipesSet = GetNode<Node2D>("PipesSet");
-    for (int i = 0; i <= 4; i++) {
+    for (int i = 0; i <= MaxPipeNumbers; i++) {
       Node2D pipes = makePipePair();
       PipesSet.AddChild(pipes);
       pipes.GlobalPosition = new Vector2(nextPipeLocationX, pipes.GlobalPosition.Y);
       nextPipeLocationX += movePipeDistanceX;
     }
 
-    BackgroundBoundaries = GetNode<StaticBody2D>("BackgroundBoundary");
     PausedScreen = GetNode<Control>("UI/PausedScreenLayer/PausedScreen/PausedScreenButtonContainer");
     backgroundSprite = GetNode<Sprite2D>("UI/BackgroundLayer/FlappyBackground");
     backgroundShaderMaterial = (ShaderMaterial)backgroundSprite.Material;
 
     Input.MouseMode = Input.MouseModeEnum.Captured;
+
+    IncreaseDifficulty += DifficultyManager.IncreaseDifficulty;
+    IncreaseDifficulty += () => EmitSignal(SignalName.DifficultyIncreased);
+    DifficultyIncreased += LevelIncreaseDifficulty;
   }
 
   public override void _Process(double delta) {
@@ -52,10 +56,6 @@ public partial class Level : Node2D {
     }
     else {
       backgroundShaderMaterial.SetShaderParameter("applyRedHue", false);
-    }
-
-    if (BackgroundBoundaries.GlobalPosition.X - Bird.GlobalPosition.X < -1000) {
-      BackgroundBoundaries.MoveLocalX(2000);
     }
 
     foreach (Node2D pipe in PipesSet.GetChildren().Cast<Node2D>()) {
@@ -75,6 +75,7 @@ public partial class Level : Node2D {
     RandomNumberGenerator RNG = new();
     return RNG.RandiRange((int)min, (int)max);
   }
+
   //TODO make a minimun space b/w pipes
   private Node2D makePipePair() {
     StaticBody2D topPipe = (StaticBody2D)pipeScene.Instantiate();
@@ -86,13 +87,13 @@ public partial class Level : Node2D {
 
     Node2D pipePair = new() {
       GlobalPosition = new Vector2(0, 300),
-      Scale = new Vector2(5, 7)
+      Scale = new Vector2(5, 7),
     };
 
-    // float currentGapLessThanMinimum = bottomPipe.Position.Y - topPipe.Position.Y - minimumSpaceBetweenPipes;
-    // if (currentGapLessThanMinimum < -10) {
-    //   bottomPipe.Position = new Vector2(bottomPipe.Position.X, bottomPipe.Position.Y + currentGapLessThanMinimum);
-    // }
+    float currentGapLessThanMinimum = bottomPipe.Position.Y - topPipe.Position.Y - minimumSpaceBetweenPipes;
+    if (currentGapLessThanMinimum < -10) {
+      bottomPipe.Position = new Vector2(bottomPipe.Position.X, bottomPipe.Position.Y - currentGapLessThanMinimum);
+    }
     pipePair.AddChild(topPipe);
     pipePair.AddChild(bottomPipe);
     return pipePair;
@@ -133,6 +134,7 @@ public partial class Level : Node2D {
   }
 
   private void PressedBackToTitleButton() {
+    GetTree().Root.GetNode<Node>("Global").EmitSignal(nameof(Global.MusicChanged));
     GetTree().Paused = false;
     GetTree().ChangeSceneToFile("scenes/StartScreen.tscn");
   }
@@ -144,16 +146,19 @@ public partial class Level : Node2D {
   private void ScoreManager() {
     score++;
     GetNode<RichTextLabel>("UI/ScoreContainer/Score").Text = "Score : " + score.ToString();
-    Global.GlobalScore = this.score;
+    Global.GlobalScore = score;
+
+    if (score >= DifficultyManager.DifficultyIncreaseTriggerScores[DifficultyManager.DifficultyStage]) {
+      EmitSignal(SignalName.IncreaseDifficulty);
+    }
   }
 
-  //TODO implement this
-  private void IncreaseDifficulty() {
-    DifficultyStage++;
-    Bird birdObj = new();
-    birdObj.IncreaseBirdMoveSpeed(DifficultyStage);
+  public void LevelIncreaseDifficulty() {
+    movePipeDistanceX = DifficultyManager.PipeGap[DifficultyManager.DifficultyStage];
+    GetNode<Timer>("PowerUpSpawnTimer").WaitTime = DifficultyManager.PowerSpawnTime[DifficultyManager.DifficultyStage];
+    minimumSpaceBetweenPipes = DifficultyManager.PipeMinimumGap[DifficultyManager.DifficultyStage];
 
-    Array<int> pipeGapChanges = new Array<int> { 190, 150 };
+    ((Bird)Bird).IncreaseBirdMoveSpeed();
   }
 
   private void ChangeShader() {
@@ -163,7 +168,7 @@ public partial class Level : Node2D {
   private void SpawnPowerUp() {
     PackedScene powerUpScene = GD.Load<PackedScene>("scenes/SpeedBoostPowerUp.tscn");
     Node2D powerUp = (Node2D)powerUpScene.Instantiate();
-    powerUp.Position = new Vector2(Bird.Position.X + 500, 500);
+    powerUp.Position = new Vector2(nextPipeLocationX + 40, 500);
     AddChild(powerUp);
   }
 }
