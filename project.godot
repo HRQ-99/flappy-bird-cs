@@ -23,8 +23,9 @@ buses/default_bus_layout="res://utilities/AudioBusLayout.tres"
 
 [autoload]
 
-Global="*res://global/Global.cs"
 UserConfig="*res://utilities/UserConfig.cs"
+Global="*res://global/Global.cs"
+DifficultyManager="*res://global/DifficultyManager.cs"
 
 [display]
 
@@ -51,6 +52,7 @@ naming/script_name_casing=1
 
 PowerUp=""
 Bird=""
+Level=""
 
 [gui]
 
