@@ -1,23 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://dywnd1h8c6fxb"]
+[gd_scene load_steps=8 format=3 uid="uid://dywnd1h8c6fxb"]
 
 [ext_resource type="Script" path="res://scripts/PowerUps/SpeedBoostPowerUp.cs" id="1_xbh5o"]
-[ext_resource type="Texture2D" uid="uid://cdp0fjtamws13" path="res://art/cloud_1.png" id="2_ydc3g"]
+[ext_resource type="Shader" path="res://shaders/PowerUps.gdshader" id="1_yh2th"]
+[ext_resource type="Texture2D" uid="uid://dqpx24dnr71ar" path="res://art/PowerUps/speedBoostPowerUp.png" id="2_ahdyc"]
+[ext_resource type="AudioStream" uid="uid://bhwjgoal7r3ya" path="res://sound/effects/speedBoostSoundEffect_2.mp3" id="4_a14ax"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pofki"]
-size = Vector2(63, 33)
+[sub_resource type="CircleShape2D" id="CircleShape2D_2dffg"]
+radius = 251.072
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4imv2"]
+shader = ExtResource("1_yh2th")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ydlo"]
+radius = 21.0
+height = 86.0
 
 [node name="SpeedBoostPowerUp" type="Area2D" groups=["PowerUp"]]
+collision_layer = 8
+input_pickable = false
+monitorable = false
+audio_bus_override = true
+audio_bus_name = &"Effects"
 script = ExtResource("1_xbh5o")
 
+[node name="MusicFadeArea" type="Area2D" parent="."]
+
+[node name="FadeHitbox" type="CollisionShape2D" parent="MusicFadeArea"]
+shape = SubResource("CircleShape2D_2dffg")
+
 [node name="SpeedBoostSprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_ydc3g")
+material = SubResource("ShaderMaterial_4imv2")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_ahdyc")
 
 [node name="SpeedBoostCollision" type="CollisionShape2D" parent="."]
-position = Vector2(-5.5, 6.5)
-shape = SubResource("RectangleShape2D_pofki")
+position = Vector2(-3, -12)
+shape = SubResource("CapsuleShape2D_3ydlo")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="SoundEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_a14ax")
+volume_db = -10.0
+pitch_scale = 0.9
+max_distance = 1000.0
+bus = &"Effects"
+
 [connection signal="body_entered" from="." to="." method="PowerActivate"]
+[connection signal="body_entered" from="MusicFadeArea" to="." method="MusicFade"]
 [connection signal="timeout" from="Timer" to="." method="PowerExpired"]

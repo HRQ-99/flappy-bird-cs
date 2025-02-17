@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8h8vj7trj4hu"]
+[gd_scene load_steps=9 format=3 uid="uid://c8h8vj7trj4hu"]
 
 [ext_resource type="Script" path="res://scripts/Level.cs" id="1_o18cw"]
 [ext_resource type="Shader" path="res://shaders/Level.gdshader" id="2_xefbw"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/Bird.cs" id="4_qn8do"]
 [ext_resource type="Texture2D" uid="uid://ln65np1v4x60" path="res://art/background_1.png.png" id="5_43svf"]
 [ext_resource type="PackedScene" uid="uid://yhbldw448mdq" path="res://scenes/PausedScreen.tscn" id="6_8pu2g"]
+[ext_resource type="PackedScene" uid="uid://dywnd1h8c6fxb" path="res://scenes/SpeedBoostPowerUp.tscn" id="7_f1cce"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1ruf"]
 shader = ExtResource("2_xefbw")
@@ -34,7 +35,7 @@ autostart = true
 
 [node name="PowerUpSpawnTimer" type="Timer" parent="."]
 process_mode = 1
-wait_time = 5.0
+wait_time = 15.0
 autostart = true
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -96,6 +97,9 @@ size_flags_vertical = 4
 
 [node name="PausedScreenButtonContainer" parent="UI/PausedScreenLayer/PausedScreen" index="0"]
 visible = false
+
+[node name="SpeedBoostPowerUp" parent="." instance=ExtResource("7_f1cce")]
+position = Vector2(1031, 490.5)
 
 [connection signal="timeout" from="ScoreTimer" to="." method="ScoreManager"]
 [connection signal="timeout" from="PowerUpSpawnTimer" to="." method="SpawnPowerUp"]

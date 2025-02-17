@@ -104,7 +104,7 @@ public partial class OptionsMenu : Control {
 
   private void ChangeEffectsVolume(bool valueChanged) {
     if (valueChanged) {
-      int sliderValue = (int)AudioOptions.GetNode<HSlider>("EffectsVolumeContainer/EffectsVolumeSlider").Value / 100;
+      float sliderValue = (float)AudioOptions.GetNode<HSlider>("EffectsVolumeContainer/EffectsVolumeSlider").Value / 100;
       int newVolume = (int)Mathf.LinearToDb(sliderValue);
       UserConfigObj.SaveAudioConfig(UserConfig.Options.EffectsVolume.ToString(), sliderValue);
       AudioServer.SetBusVolumeDb((int)AudioBuses.Effects, newVolume);

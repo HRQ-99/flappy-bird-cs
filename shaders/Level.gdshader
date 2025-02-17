@@ -13,4 +13,5 @@ void fragment() {
     } else {
         COLOR = inputColor;
     }
+    
 }

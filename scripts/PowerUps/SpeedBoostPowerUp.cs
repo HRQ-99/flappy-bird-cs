@@ -12,8 +12,24 @@ public partial class SpeedBoostPowerUp : Area2D, PowerUps {
       birdBoostTrail = BoostTrail.CreateTrail();
       CharacterBody2D bird = GetNode<CharacterBody2D>("/root/Level/Bird");
       bird.AddChild(birdBoostTrail);
+
+      GetNode<AudioStreamPlayer2D>("SoundEffect").Play();
+      Visible = false;
+      GetNode<Timer>("Timer").Start();
     }
-    // GetNode<Timer>("Timer").Start();
+  }
+
+  public void MusicFade(Node2D bodyEntered) {
+    if (bodyEntered.IsInGroup("Bird")) {
+      Tween musicFade = CreateTween();
+      musicFade.TweenProperty(GetNode<AudioStreamPlayer>("/root/Global/Background"), "volume_db", -10, 2);
+      musicFade.Finished += MusicFadeIn;
+    }
+  }
+
+  public void MusicFadeIn() {
+    Tween musicFade = CreateTween();
+    musicFade.TweenProperty(GetNode<AudioStreamPlayer>("/root/Global/Background"), "volume_db", 0, 1.5);
   }
 
   //TODO old power's expiring overwrites current one's buff
@@ -21,7 +37,7 @@ public partial class SpeedBoostPowerUp : Area2D, PowerUps {
     Bird.SpeedMultiplier = 1;
     Bird.gravityMultiplier = 1;
     Bird.Invincible = false;
-    birdBoostTrail = null;
+    GetNode<CharacterBody2D>("/root/Level/Bird").RemoveChild(birdBoostTrail);
     QueueFree();
   }
 }

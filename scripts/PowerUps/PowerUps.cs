@@ -5,6 +5,9 @@ public interface PowerUps {
   enum PowerUpsList {
     SpeedBoost, ScoreBoost, Gun
   }
-  abstract void PowerActivate(Node2D bodyEntered);
-  abstract void PowerExpired();
+
+  protected abstract void PowerActivate(Node2D bodyEntered);
+  protected abstract void MusicFade(Node2D bodyEntered);
+  protected abstract void MusicFadeIn();
+  protected abstract void PowerExpired();
 }

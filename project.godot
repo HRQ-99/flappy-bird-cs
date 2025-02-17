@@ -107,6 +107,7 @@ Dive={
 2d_physics/layer_1="Bird"
 2d_physics/layer_2="Pipes"
 2d_physics/layer_3="Background Boundary"
+2d_physics/layer_4="PowerUps"
 
 [physics]
 

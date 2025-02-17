@@ -37,7 +37,6 @@ public partial class Config : Resource {
   [Export] public int MasterVolume = 100;
   [Export] public int MusicVolume = 100;
   [Export] public int EffectsVolume = 100;
-  public const int baseVolume = 100;
   // [Export] public string VolumeOutputDevice;
 
   public Config() {
