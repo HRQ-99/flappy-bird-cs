@@ -6,6 +6,7 @@ Welcome to the Flappy Bird game project built using the Godot Engine! This was m
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Game Controls](#game-controls)
 - [License](#license)
 
 ## Introduction
@@ -14,11 +15,14 @@ This project is a clone of the popular Flappy Bird game, developed using the God
 
 ## Installation
 
-The current way is to clone the repo, and run the game using Godot-engine. Might make a release version to make it simpler.
+The current way is to clone the repo, and run the game using Godot-engine. Will make a release version to make it simpler.
 
-- Press the spacebar or arrow-Up key to make the bird flap its wings.
+## Game Controls
+
+- Press the spacebar to restart the level
+- Press arrow-up key to make the bird flap its wings.
 - Avoid the pipes to keep the bird flying.
-- The game ends when the bird hits a pipe or the ground.
+- The game ends when the bird hits a pipe.
 
 ## License
 

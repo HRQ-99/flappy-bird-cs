@@ -1,22 +1,20 @@
 using Godot;
 
-public partial class SpeedBoostPowerUp : Area2D, IPowerUps {
+public partial class ScoreBoostPowerUp : Area2D, IPowerUps {
+  double RegularScoreTime;
+  double scoreBoostMultiplier = 0.5;
 
-  BoostTrail birdBoostTrail;
+  Timer timerNode;
 
   public void PowerActivate(Node2D bodyEntered) {
     if (bodyEntered.IsInGroup("Bird")) {
-      Bird.SpeedMultiplier = 5;
-      Bird.gravityMultiplier = 0.01f;
-      Bird.Invincible = true;
-
-      birdBoostTrail = BoostTrail.CreateTrail();
-      bodyEntered.AddChild(birdBoostTrail);
+      timerNode = GetParent<Node2D>().GetNode<Timer>("ScoreTimer");
+      timerNode.WaitTime *= scoreBoostMultiplier;
 
       SetDeferred("monitoring", false);
       Visible = false;
       GetNode<Timer>("Timer").Start();
-
+      
       GetNode<AudioStreamPlayer2D>("SoundEffect").Play();
     }
   }
@@ -34,13 +32,10 @@ public partial class SpeedBoostPowerUp : Area2D, IPowerUps {
     musicFade.TweenProperty(GetNode<AudioStreamPlayer>("/root/Global/Background"), "volume_db", 0, 1.5);
   }
 
-  //TODO old power's expiring overwrites current one's buff
   public void PowerExpired() {
-    Bird.SpeedMultiplier = 1;
-    Bird.gravityMultiplier = 1;
-    Bird.Invincible = false;
-    GetNode<CharacterBody2D>("/root/Level/Bird").RemoveChild(birdBoostTrail);
+    timerNode.WaitTime /= scoreBoostMultiplier;
     
     QueueFree();
   }
+
 }

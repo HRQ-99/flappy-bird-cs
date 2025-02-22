@@ -4,6 +4,7 @@
 
 [node name="Bird" type="CharacterBody2D" groups=["Bird"]]
 scale = Vector2(0.25, 0.25)
+collision_mask = 6
 
 [node name="BirdSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_q2kp6")

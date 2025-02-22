@@ -11,10 +11,13 @@ export_presets.cfg
 # Imported translations (automatically generated from CSV files)
 *.translation
 
-# Mono-specific ignores
+# VS & VSCode ignores
 .mono/
 data_*/
 mono_crash.*.json
 .mono/
 .vs/
 .vscode/
+/Properties/
+
+/user/

@@ -2,23 +2,23 @@ using Godot;
 using System.Linq;
 
 public partial class Level : Node2D {
-  private bool GamePaused = false;
-  private int score = 0;
-  private float movePipeDistanceX = 800;
-  private int bottomPipePositionY = 50;
-  private int gapBetweenPipeY = 10;
-  private float nextPipeLocationX = 450;
-  private float minimumSpaceBetweenPipes = 55;
 
-  private const int MaxPipeNumbers = 5;
+  bool GamePaused = false;
+  int score = 0;
+  float movePipeDistanceX = 800;
+  int bottomPipePositionY = 50;
+  int gapBetweenPipeY = 10;
+  float nextPipeLocationX = 450;
+  float minimumSpaceBetweenPipes = 55;
+  const int MaxPipeNumbers = 5;
 
   CharacterBody2D Bird;
   Node2D PipesSet;
   Control PausedScreen;
   readonly PackedScene pipeScene = (PackedScene)GD.Load("scenes/Pipe.tscn");
 
-  private ShaderMaterial backgroundShaderMaterial;
-  private Sprite2D backgroundSprite;
+  ShaderMaterial backgroundShaderMaterial;
+  Sprite2D backgroundSprite;
 
   [Signal] public delegate void IncreaseDifficultyEventHandler();
   [Signal] public delegate void DifficultyIncreasedEventHandler();
@@ -45,6 +45,11 @@ public partial class Level : Node2D {
     IncreaseDifficulty += DifficultyManager.IncreaseDifficulty;
     IncreaseDifficulty += () => EmitSignal(SignalName.DifficultyIncreased);
     DifficultyIncreased += LevelIncreaseDifficulty;
+
+    // string[] powerUps;
+    // for (int i = 0; i < (powerUps = System.IO.Directory.GetFiles(powerUpScenesPath)).Length; i++) {
+    //   powerUpScenes.Add(GD.Load<PackedScene>(powerUps[i]));
+    // }
   }
 
   public override void _Process(double delta) {
@@ -165,9 +170,12 @@ public partial class Level : Node2D {
     // background.Material
   }
 
+  //use groups to check if power is in pipes, then move the power forward
   private void SpawnPowerUp() {
-    PackedScene powerUpScene = GD.Load<PackedScene>("scenes/SpeedBoostPowerUp.tscn");
-    Node2D powerUp = (Node2D)powerUpScene.Instantiate();
+    int powerUpIndex = RandomInt(0, IPowerUps.powerUpsEnumList.Count - 1);
+    PackedScene chosenPowerUp = IPowerUps.PowerUpScenes[IPowerUps.powerUpsEnumList[powerUpIndex]];
+    Area2D powerUp = chosenPowerUp.Instantiate<Area2D>();
+
     powerUp.Position = new Vector2(nextPipeLocationX + 40, 500);
     AddChild(powerUp);
   }

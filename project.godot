@@ -53,6 +53,7 @@ naming/script_name_casing=1
 PowerUp=""
 Bird=""
 Level=""
+Pipe=""
 
 [gui]
 
@@ -108,6 +109,7 @@ Dive={
 2d_physics/layer_2="Pipes"
 2d_physics/layer_3="Background Boundary"
 2d_physics/layer_4="PowerUps"
+2d_physics/layer_10="PipeDestroyerBird"
 
 [physics]
 

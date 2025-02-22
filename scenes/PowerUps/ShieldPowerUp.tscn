@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://bk7sumddhc7h1"]
+
+[ext_resource type="Script" path="res://scripts/PowerUps/ShieldPowerUp.cs" id="1_in2uy"]
+[ext_resource type="Texture2D" uid="uid://4ybu3lt2xhl2" path="res://art/PowerUps/Shield.png" id="2_i1qrp"]
+[ext_resource type="AudioStream" uid="uid://bhwjgoal7r3ya" path="res://sound/effects/speedBoostSoundEffect_2.mp3" id="3_o5egl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c0hgc"]
+radius = 205.022
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f65a7"]
+radius = 38.1182
+
+[node name="ShieldPowerUp" type="Area2D" groups=["PowerUp"]]
+process_mode = 1
+collision_layer = 8
+input_pickable = false
+audio_bus_override = true
+audio_bus_name = &"Effects"
+script = ExtResource("1_in2uy")
+
+[node name="MusicFadeArea" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="FadeHitbox" type="CollisionShape2D" parent="MusicFadeArea"]
+shape = SubResource("CircleShape2D_c0hgc")
+
+[node name="ShieldSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.843137, 0.701961, 0.780392, 0.811765)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_i1qrp")
+
+[node name="ShieldHitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_f65a7")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+
+[node name="SoundEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_o5egl")
+bus = &"Effects"
+
+[connection signal="body_entered" from="." to="." method="PowerActivate"]
+[connection signal="body_entered" from="MusicFadeArea" to="." method="MusicFadeOut"]
+[connection signal="timeout" from="Timer" to="." method="PowerExpired"]

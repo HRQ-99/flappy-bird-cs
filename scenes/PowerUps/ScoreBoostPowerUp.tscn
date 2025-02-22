@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdpd1c2qac6c1"]
+
+[ext_resource type="Script" path="res://scripts/PowerUps/ScoreBoostPowerUp.cs" id="1_bxmcj"]
+[ext_resource type="Texture2D" uid="uid://cdp0fjtamws13" path="res://art/cloud_1.png" id="2_1rl5g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tur2f"]
+radius = 167.529
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e4h44"]
+size = Vector2(96, 50)
+
+[node name="ScoreBoostPowerUp" type="Area2D" groups=["PowerUp"]]
+process_mode = 1
+collision_layer = 8
+input_pickable = false
+monitorable = false
+audio_bus_override = true
+audio_bus_name = &"Effects"
+script = ExtResource("1_bxmcj")
+
+[node name="MusicFadeArea" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="FadeHitbox" type="CollisionShape2D" parent="MusicFadeArea"]
+shape = SubResource("CircleShape2D_tur2f")
+
+[node name="ScoreBoostSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_1rl5g")
+
+[node name="ScoreBoostHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 4)
+shape = SubResource("RectangleShape2D_e4h44")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="SoundEffect" type="AudioStreamPlayer2D" parent="."]
+bus = &"Effects"
+
+[connection signal="body_entered" from="." to="." method="PowerActivate"]
+[connection signal="body_entered" from="MusicFadeArea" to="." method="MusicFadeOut"]
+[connection signal="timeout" from="Timer" to="." method="PowerExpired"]

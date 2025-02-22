@@ -2,20 +2,26 @@ using Godot;
 using System.Linq;
 
 public partial class Bird : CharacterBody2D {
-  private CharacterBody2D birdCollision;
-  [Export] private float fallSpeed = 100f;
-  [Export] private float flySpeed = -1500f;
-  [Export] private float moveSpeed = 150f;
-  [Export] private float diveMultiplier = 5;
 
+  [Export] float fallSpeed = 100f;
+  [Export] float flySpeed = -1500f;
+  [Export] float moveSpeed = 150f;
+  [Export] float diveMultiplier = 5;
+
+  static CharacterBody2D s_bird;
   public static bool Invincible = false;
   public static float SpeedMultiplier = 1.0f;
   public static float gravityMultiplier = 1.0f;
 
+  public static bool PipeDestroyerActive = false;
+  public static bool ShieldActive = false;
+
   enum RotationDirection { Up = -1, Down = 1 }
 
+  Area2D _shield { set; get; }
+
   public override void _Ready() {
-    birdCollision = this;
+    s_bird = this;
     Invincible = false;
     SpeedMultiplier = 1;
     gravityMultiplier = 1;
@@ -38,9 +44,11 @@ public partial class Bird : CharacterBody2D {
       GetTree().CurrentScene.GetNode<RichTextLabel>("UI/ScoreContainer/Godmode").Visible = Invincible;
     }
 
-    if (MoveAndSlide() && !Invincible) {
-      birdCollision.GetSlideCollision(0);
-      KinematicCollision2D lastHit = birdCollision.GetLastSlideCollision();
+    MoveAndSlide();
+    int collisionCount = s_bird.GetSlideCollisionCount();
+
+    if (!Invincible && collisionCount > 0) {
+      KinematicCollision2D lastHit = s_bird.GetLastSlideCollision();
 
       if (lastHit != null) {
         Node collider = lastHit.GetCollider() as Node;
@@ -51,12 +59,20 @@ public partial class Bird : CharacterBody2D {
         }
       }
     }
+
+    if (PipeDestroyerActive && collisionCount > 0) {
+      KinematicCollision2D lastHit = s_bird.GetLastSlideCollision();
+
+      if (lastHit != null) {
+        Node2D collider = lastHit.GetCollider() as Node2D;
+        if (collider.IsInGroup("Pipe")) { collider.QueueFree(); }
+      }
+    }
   }
 
-  public static void SaveScore() {
+  static void SaveScore() {
     if (FileAccess.FileExists(Global.SAVE_DIRE)) {
-      SavedGame saveFile = GD.Load(Global.SAVE_DIRE) as SavedGame;
-      if (saveFile != null) {
+      if (GD.Load(Global.SAVE_DIRE) is SavedGame saveFile) {
         saveFile.attemptNumber.Add(saveFile.attemptNumber.Count > 0 ? saveFile.attemptNumber.Last() + 1 : 1);
         saveFile.score.Add(Global.GlobalScore);
         ResourceSaver.Save(saveFile, Global.SAVE_DIRE);
@@ -70,7 +86,7 @@ public partial class Bird : CharacterBody2D {
     ResourceSaver.Save(newSave, Global.SAVE_DIRE);
   }
 
-  private void SpriteRotation(int direction) {
+  void SpriteRotation(int direction) {
     Tween rotateSprite = CreateTween();
     rotateSprite.TweenProperty(this, "rotation", 0.25 * direction, 0.15);
     rotateSprite.TweenProperty(this, "rotation", 0, 0.25);
@@ -78,5 +94,15 @@ public partial class Bird : CharacterBody2D {
 
   public void IncreaseBirdMoveSpeed() {
     moveSpeed = DifficultyManager.BirdMoveSpeed[DifficultyManager.DifficultyStage];
+  }
+
+  public void ActivateShield() {
+    ShieldActive = true;
+    Invincible = true;
+  }
+
+  public void ShieldExpired() {
+    ShieldActive = false;
+    Invincible = false;
   }
 }

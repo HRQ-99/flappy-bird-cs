@@ -147,7 +147,6 @@ public partial class OptionsMenu : Control {
     AudioOptions = GetNode<VBoxContainer>("TabContainer/Audio/AudioVBox");
     InputOptions = GetNode<VBoxContainer>("TabContainer/Input/InputVBox");
     SetCurrentSelected();
-    // string key;
     UserConfig obj = new();
     obj.LoadDisplayConfig();
   }

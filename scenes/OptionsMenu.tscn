@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1eehm1dkgsua"]
+[gd_scene load_steps=4 format=3 uid="uid://b1eehm1dkgsua"]
 
 [ext_resource type="Script" path="res://scripts/OptionsMenu.cs" id="1_xmr6o"]
 [ext_resource type="Script" path="res://scripts/InputRemap.cs" id="2_0gprk"]
 [ext_resource type="Texture2D" uid="uid://cdnrggovqtkqh" path="res://art/background_2.png" id="3_gxgm1"]
-[ext_resource type="AudioStream" uid="uid://cpp3jrxk4yulg" path="res://sound/music/01.02. Minuet In G.mp3" id="4_quq38"]
 
-[node name="OptionsMenu" type="VBoxContainer"]
+[node name="OptionsMenu" type="CanvasLayer"]
+
+[node name="OptionsMenuContainer" type="VBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,13 +14,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xmr6o")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="FlappyBackground" type="Sprite2D" parent="OptionsMenuContainer"]
+position = Vector2(481.5, 273)
+scale = Vector2(0.509896, 0.524074)
+texture = ExtResource("3_gxgm1")
+flip_h = true
+
+[node name="TabContainer" type="TabContainer" parent="OptionsMenuContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 current_tab = 0
 
-[node name="Display" type="MarginContainer" parent="TabContainer"]
+[node name="Display" type="MarginContainer" parent="OptionsMenuContainer/TabContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
@@ -27,20 +34,20 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 metadata/_tab_index = 0
 
-[node name="DisplayVBox" type="VBoxContainer" parent="TabContainer/Display"]
+[node name="DisplayVBox" type="VBoxContainer" parent="OptionsMenuContainer/TabContainer/Display"]
 layout_mode = 2
 
-[node name="WindowModeContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+[node name="WindowModeContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox"]
 layout_mode = 2
 split_offset = 600
 dragger_visibility = 2
 
-[node name="WindowModeLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/WindowModeContainer"]
+[node name="WindowModeLabel" type="RichTextLabel" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/WindowModeContainer"]
 layout_mode = 2
 text = "Window Mode"
 fit_content = true
 
-[node name="WindowModeOptionButton" type="OptionButton" parent="TabContainer/Display/DisplayVBox/WindowModeContainer"]
+[node name="WindowModeOptionButton" type="OptionButton" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/WindowModeContainer"]
 texture_filter = 1
 layout_mode = 2
 selected = 0
@@ -54,19 +61,19 @@ popup/item_2/id = 2
 popup/item_3/text = "Maximised"
 popup/item_3/id = 3
 
-[node name="ResolutionContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+[node name="ResolutionContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox"]
 visible = false
 layout_mode = 2
 split_offset = 600
 dragger_visibility = 2
 
-[node name="ResolutionLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/ResolutionContainer"]
+[node name="ResolutionLabel" type="RichTextLabel" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/ResolutionContainer"]
 layout_mode = 2
 tooltip_text = "Only changes the size of window"
 text = "Resolution"
 fit_content = true
 
-[node name="ResolutionOptionButton" type="OptionButton" parent="TabContainer/Display/DisplayVBox/ResolutionContainer"]
+[node name="ResolutionOptionButton" type="OptionButton" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/ResolutionContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 toggle_mode = false
@@ -80,37 +87,37 @@ popup/item_2/id = 2
 popup/item_3/text = "3840x2160"
 popup/item_3/id = 3
 
-[node name="V-SyncContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+[node name="V-SyncContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox"]
 layout_mode = 2
 split_offset = 600
 dragger_visibility = 2
 
-[node name="VsyncLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/V-SyncContainer"]
+[node name="VsyncLabel" type="RichTextLabel" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/V-SyncContainer"]
 layout_mode = 2
 text = "V-Sync"
 fit_content = true
 
-[node name="VsyncOptionButton" type="CheckBox" parent="TabContainer/Display/DisplayVBox/V-SyncContainer"]
+[node name="VsyncOptionButton" type="CheckBox" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/V-SyncContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="CustomCursorContainer" type="HSplitContainer" parent="TabContainer/Display/DisplayVBox"]
+[node name="CustomCursorContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox"]
 layout_mode = 2
 split_offset = 600
 dragger_visibility = 2
 
-[node name="CustomCursorLabel" type="RichTextLabel" parent="TabContainer/Display/DisplayVBox/CustomCursorContainer"]
+[node name="CustomCursorLabel" type="RichTextLabel" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/CustomCursorContainer"]
 layout_mode = 2
 text = "Custom Cursor
 "
 fit_content = true
 
-[node name="CustomCursorOptionButton" type="CheckBox" parent="TabContainer/Display/DisplayVBox/CustomCursorContainer"]
+[node name="CustomCursorOptionButton" type="CheckBox" parent="OptionsMenuContainer/TabContainer/Display/DisplayVBox/CustomCursorContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 button_pressed = true
 
-[node name="Audio" type="MarginContainer" parent="TabContainer"]
+[node name="Audio" type="MarginContainer" parent="OptionsMenuContainer/TabContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 20
@@ -119,55 +126,55 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 metadata/_tab_index = 1
 
-[node name="AudioVBox" type="VBoxContainer" parent="TabContainer/Audio"]
+[node name="AudioVBox" type="VBoxContainer" parent="OptionsMenuContainer/TabContainer/Audio"]
 layout_mode = 2
 
-[node name="MasterVolumeContainer" type="HSplitContainer" parent="TabContainer/Audio/AudioVBox"]
+[node name="MasterVolumeContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox"]
 layout_mode = 2
 split_offset = 300
 dragger_visibility = 2
 
-[node name="MasterVolumeLabel" type="Label" parent="TabContainer/Audio/AudioVBox/MasterVolumeContainer"]
+[node name="MasterVolumeLabel" type="Label" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox/MasterVolumeContainer"]
 layout_mode = 2
 text = "Master Volume"
 
-[node name="MasterVolumeSlider" type="HSlider" parent="TabContainer/Audio/AudioVBox/MasterVolumeContainer"]
+[node name="MasterVolumeSlider" type="HSlider" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox/MasterVolumeContainer"]
 layout_mode = 2
 value = 100.0
 rounded = true
 tick_count = 10
 
-[node name="MusicVolumeContainer" type="HSplitContainer" parent="TabContainer/Audio/AudioVBox"]
+[node name="MusicVolumeContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox"]
 layout_mode = 2
 split_offset = 300
 dragger_visibility = 2
 
-[node name="MusicVolumeLabel" type="Label" parent="TabContainer/Audio/AudioVBox/MusicVolumeContainer"]
+[node name="MusicVolumeLabel" type="Label" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox/MusicVolumeContainer"]
 layout_mode = 2
 text = "Music Volume"
 
-[node name="MusicVolumeSlider" type="HSlider" parent="TabContainer/Audio/AudioVBox/MusicVolumeContainer"]
+[node name="MusicVolumeSlider" type="HSlider" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox/MusicVolumeContainer"]
 layout_mode = 2
 value = 100.0
 rounded = true
 tick_count = 10
 
-[node name="EffectsVolumeContainer" type="HSplitContainer" parent="TabContainer/Audio/AudioVBox"]
+[node name="EffectsVolumeContainer" type="HSplitContainer" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox"]
 layout_mode = 2
 split_offset = 300
 dragger_visibility = 2
 
-[node name="EffectsVolumeLabel" type="Label" parent="TabContainer/Audio/AudioVBox/EffectsVolumeContainer"]
+[node name="EffectsVolumeLabel" type="Label" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox/EffectsVolumeContainer"]
 layout_mode = 2
 text = "Effects Volume"
 
-[node name="EffectsVolumeSlider" type="HSlider" parent="TabContainer/Audio/AudioVBox/EffectsVolumeContainer"]
+[node name="EffectsVolumeSlider" type="HSlider" parent="OptionsMenuContainer/TabContainer/Audio/AudioVBox/EffectsVolumeContainer"]
 layout_mode = 2
 value = 100.0
 rounded = true
 tick_count = 10
 
-[node name="Input" type="MarginContainer" parent="TabContainer"]
+[node name="Input" type="MarginContainer" parent="OptionsMenuContainer/TabContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 20
@@ -176,42 +183,29 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 metadata/_tab_index = 2
 
-[node name="InputVBox" type="VBoxContainer" parent="TabContainer/Input"]
+[node name="InputVBox" type="VBoxContainer" parent="OptionsMenuContainer/TabContainer/Input"]
 layout_mode = 2
 script = ExtResource("2_0gprk")
 
-[node name="GameButtonsContainer" type="HBoxContainer" parent="."]
+[node name="GameButtonsContainer" type="HBoxContainer" parent="OptionsMenuContainer"]
 layout_mode = 2
 
-[node name="RestoreDefaultsButton" type="Button" parent="GameButtonsContainer"]
+[node name="RestoreDefaultsButton" type="Button" parent="OptionsMenuContainer/GameButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Restore Defaults"
 
-[node name="BackButton" type="Button" parent="GameButtonsContainer"]
+[node name="BackButton" type="Button" parent="OptionsMenuContainer/GameButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Back"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="FlappyBackground" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(481.5, 273)
-scale = Vector2(0.509896, 0.524074)
-texture = ExtResource("3_gxgm1")
-flip_h = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_quq38")
-bus = &"Music"
-
-[connection signal="item_selected" from="TabContainer/Display/DisplayVBox/WindowModeContainer/WindowModeOptionButton" to="." method="ChangeWindowMode"]
-[connection signal="item_selected" from="TabContainer/Display/DisplayVBox/ResolutionContainer/ResolutionOptionButton" to="." method="ChangeResolution"]
-[connection signal="toggled" from="TabContainer/Display/DisplayVBox/V-SyncContainer/VsyncOptionButton" to="." method="ToggleVSync"]
-[connection signal="toggled" from="TabContainer/Display/DisplayVBox/CustomCursorContainer/CustomCursorOptionButton" to="." method="ToggleCustomCursor"]
-[connection signal="drag_ended" from="TabContainer/Audio/AudioVBox/MasterVolumeContainer/MasterVolumeSlider" to="." method="ChangeMasterVolume"]
-[connection signal="drag_ended" from="TabContainer/Audio/AudioVBox/MusicVolumeContainer/MusicVolumeSlider" to="." method="ChangeMusicVolume"]
-[connection signal="drag_ended" from="TabContainer/Audio/AudioVBox/EffectsVolumeContainer/EffectsVolumeSlider" to="." method="ChangeEffectsVolume"]
-[connection signal="pressed" from="GameButtonsContainer/RestoreDefaultsButton" to="." method="RestoreDefaultConfig"]
-[connection signal="pressed" from="GameButtonsContainer/BackButton" to="." method="GoBackToTitleMenu"]
+[connection signal="item_selected" from="OptionsMenuContainer/TabContainer/Display/DisplayVBox/WindowModeContainer/WindowModeOptionButton" to="OptionsMenuContainer" method="ChangeWindowMode"]
+[connection signal="item_selected" from="OptionsMenuContainer/TabContainer/Display/DisplayVBox/ResolutionContainer/ResolutionOptionButton" to="OptionsMenuContainer" method="ChangeResolution"]
+[connection signal="toggled" from="OptionsMenuContainer/TabContainer/Display/DisplayVBox/V-SyncContainer/VsyncOptionButton" to="OptionsMenuContainer" method="ToggleVSync"]
+[connection signal="toggled" from="OptionsMenuContainer/TabContainer/Display/DisplayVBox/CustomCursorContainer/CustomCursorOptionButton" to="OptionsMenuContainer" method="ToggleCustomCursor"]
+[connection signal="drag_ended" from="OptionsMenuContainer/TabContainer/Audio/AudioVBox/MasterVolumeContainer/MasterVolumeSlider" to="OptionsMenuContainer" method="ChangeMasterVolume"]
+[connection signal="drag_ended" from="OptionsMenuContainer/TabContainer/Audio/AudioVBox/MusicVolumeContainer/MusicVolumeSlider" to="OptionsMenuContainer" method="ChangeMusicVolume"]
+[connection signal="drag_ended" from="OptionsMenuContainer/TabContainer/Audio/AudioVBox/EffectsVolumeContainer/EffectsVolumeSlider" to="OptionsMenuContainer" method="ChangeEffectsVolume"]
+[connection signal="pressed" from="OptionsMenuContainer/GameButtonsContainer/RestoreDefaultsButton" to="OptionsMenuContainer" method="RestoreDefaultConfig"]
+[connection signal="pressed" from="OptionsMenuContainer/GameButtonsContainer/BackButton" to="OptionsMenuContainer" method="GoBackToTitleMenu"]

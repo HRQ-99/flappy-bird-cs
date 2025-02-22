@@ -45,7 +45,7 @@ text = "Achievements"
 layout_mode = 2
 text = "Exit"
 
-[connection signal="pressed" from="CenterContainer/StartButton" to="." method="StartGame"]
-[connection signal="pressed" from="CenterContainer/OptionsButton" to="." method="OptionsMenu"]
+[connection signal="pressed" from="CenterContainer/StartButton" to="." method="StartGameButton"]
+[connection signal="pressed" from="CenterContainer/OptionsButton" to="." method="OptionsMenuButton"]
 [connection signal="pressed" from="CenterContainer/AchievementButton" to="." method="AchievementsButton"]
 [connection signal="pressed" from="CenterContainer/ExitButton" to="." method="ExitGame"]

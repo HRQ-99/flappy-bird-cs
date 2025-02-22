@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/Bird.cs" id="4_qn8do"]
 [ext_resource type="Texture2D" uid="uid://ln65np1v4x60" path="res://art/background_1.png.png" id="5_43svf"]
 [ext_resource type="PackedScene" uid="uid://yhbldw448mdq" path="res://scenes/PausedScreen.tscn" id="6_8pu2g"]
-[ext_resource type="PackedScene" uid="uid://dywnd1h8c6fxb" path="res://scenes/SpeedBoostPowerUp.tscn" id="7_f1cce"]
+[ext_resource type="PackedScene" uid="uid://bk7sumddhc7h1" path="res://scenes/PowerUps/ShieldPowerUp.tscn" id="7_3hvdn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1ruf"]
 shader = ExtResource("2_xefbw")
@@ -22,7 +22,6 @@ script = ExtResource("1_o18cw")
 [node name="Bird" parent="." instance=ExtResource("3_w1eua")]
 process_mode = 1
 position = Vector2(19, 455)
-collision_mask = 6
 floor_constant_speed = true
 script = ExtResource("4_qn8do")
 metadata/_edit_lock_ = true
@@ -98,8 +97,8 @@ size_flags_vertical = 4
 [node name="PausedScreenButtonContainer" parent="UI/PausedScreenLayer/PausedScreen" index="0"]
 visible = false
 
-[node name="SpeedBoostPowerUp" parent="." instance=ExtResource("7_f1cce")]
-position = Vector2(1031, 490.5)
+[node name="ShieldPowerUp" parent="." instance=ExtResource("7_3hvdn")]
+position = Vector2(830.5, 455.5)
 
 [connection signal="timeout" from="ScoreTimer" to="." method="ScoreManager"]
 [connection signal="timeout" from="PowerUpSpawnTimer" to="." method="SpawnPowerUp"]

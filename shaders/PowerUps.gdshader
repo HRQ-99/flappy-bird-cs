@@ -4,4 +4,4 @@ void vertex() {
 	VERTEX.y+=sin(TIME)*100.0;
 }
 
-void fragment() { }
+void fragment(){ }

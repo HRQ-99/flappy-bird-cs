@@ -1,17 +1,17 @@
 using Godot;
 
-public partial class SpeedBoostPowerUp : Area2D, IPowerUps {
-
-  BoostTrail birdBoostTrail;
+public partial class PipeDestroyerPowerUp : Area2D, IPowerUps {
+  const float birdScaleMultiplier = 8;
+  const float birdSpeedMultiplier = 2;
 
   public void PowerActivate(Node2D bodyEntered) {
     if (bodyEntered.IsInGroup("Bird")) {
-      Bird.SpeedMultiplier = 5;
-      Bird.gravityMultiplier = 0.01f;
       Bird.Invincible = true;
+      Bird.SpeedMultiplier *= birdSpeedMultiplier;
+      Bird.PipeDestroyerActive = true;
 
-      birdBoostTrail = BoostTrail.CreateTrail();
-      bodyEntered.AddChild(birdBoostTrail);
+      Tween birdScaleTween = CreateTween();
+      birdScaleTween.TweenProperty(bodyEntered, "scale", bodyEntered.Scale * birdScaleMultiplier, 1);
 
       SetDeferred("monitoring", false);
       Visible = false;
@@ -34,13 +34,19 @@ public partial class SpeedBoostPowerUp : Area2D, IPowerUps {
     musicFade.TweenProperty(GetNode<AudioStreamPlayer>("/root/Global/Background"), "volume_db", 0, 1.5);
   }
 
-  //TODO old power's expiring overwrites current one's buff
   public void PowerExpired() {
-    Bird.SpeedMultiplier = 1;
-    Bird.gravityMultiplier = 1;
+    Tween birdScaleTween = CreateTween();
+    CharacterBody2D bird = GetNode<CharacterBody2D>("/root/Level/Bird");
+
+    birdScaleTween.TweenProperty(bird, "scale", bird.Scale / birdScaleMultiplier, 1);
+    Bird.PipeDestroyerActive = false;
+    GetNode<AudioStreamPlayer2D>("SoundEffect").Play();
+    Bird.SpeedMultiplier /= birdSpeedMultiplier;
+    birdScaleTween.Finished += DisableInvinciblity;
+  }
+
+  private void DisableInvinciblity() {
     Bird.Invincible = false;
-    GetNode<CharacterBody2D>("/root/Level/Bird").RemoveChild(birdBoostTrail);
-    
     QueueFree();
   }
 }

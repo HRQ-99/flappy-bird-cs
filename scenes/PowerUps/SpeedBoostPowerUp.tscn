@@ -16,6 +16,7 @@ radius = 21.0
 height = 86.0
 
 [node name="SpeedBoostPowerUp" type="Area2D" groups=["PowerUp"]]
+process_mode = 1
 collision_layer = 8
 input_pickable = false
 monitorable = false
@@ -24,6 +25,7 @@ audio_bus_name = &"Effects"
 script = ExtResource("1_xbh5o")
 
 [node name="MusicFadeArea" type="Area2D" parent="."]
+collision_layer = 8
 
 [node name="FadeHitbox" type="CollisionShape2D" parent="MusicFadeArea"]
 shape = SubResource("CircleShape2D_2dffg")
@@ -33,7 +35,7 @@ material = SubResource("ShaderMaterial_4imv2")
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_ahdyc")
 
-[node name="SpeedBoostCollision" type="CollisionShape2D" parent="."]
+[node name="SpeedBoostHitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-3, -12)
 shape = SubResource("CapsuleShape2D_3ydlo")
 
