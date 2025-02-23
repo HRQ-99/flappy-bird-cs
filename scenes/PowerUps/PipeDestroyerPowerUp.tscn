@@ -1,10 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3svps2ikhx2q"]
+[gd_scene load_steps=7 format=3 uid="uid://d3svps2ikhx2q"]
 
 [ext_resource type="Script" path="res://scripts/PowerUps/PipeDestroyerPowerUp.cs" id="1_ci35a"]
 [ext_resource type="Texture2D" uid="uid://cdp0fjtamws13" path="res://art/cloud_1.png" id="1_udqbs"]
+[ext_resource type="Shader" path="res://shaders/PowerUps.gdshader" id="2_0288p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cg3vo"]
 radius = 247.396
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fl68"]
+shader = ExtResource("2_0288p")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bub3b"]
 size = Vector2(85, 60)
@@ -27,6 +31,7 @@ audio_bus_name = &"Effects"
 shape = SubResource("CircleShape2D_cg3vo")
 
 [node name="PipeDestroyerSprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8fl68")
 texture = ExtResource("1_udqbs")
 
 [node name="PipeDestroyerHitbox" type="CollisionShape2D" parent="."]

@@ -1,13 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdpd1c2qac6c1"]
+[gd_scene load_steps=7 format=3 uid="uid://cdpd1c2qac6c1"]
 
 [ext_resource type="Script" path="res://scripts/PowerUps/ScoreBoostPowerUp.cs" id="1_bxmcj"]
-[ext_resource type="Texture2D" uid="uid://cdp0fjtamws13" path="res://art/cloud_1.png" id="2_1rl5g"]
+[ext_resource type="Shader" path="res://shaders/PowerUps.gdshader" id="2_0axl0"]
+[ext_resource type="Texture2D" uid="uid://co7wphui4h7sm" path="res://art/PowerUps/scoreBoostPowerUp.png" id="2_80iix"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tur2f"]
 radius = 167.529
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_e4h44"]
-size = Vector2(96, 50)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mbddw"]
+shader = ExtResource("2_0axl0")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3y8bo"]
+radius = 57.0351
 
 [node name="ScoreBoostPowerUp" type="Area2D" groups=["PowerUp"]]
 process_mode = 1
@@ -25,11 +29,13 @@ collision_layer = 8
 shape = SubResource("CircleShape2D_tur2f")
 
 [node name="ScoreBoostSprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_1rl5g")
+material = SubResource("ShaderMaterial_mbddw")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_80iix")
 
 [node name="ScoreBoostHitbox" type="CollisionShape2D" parent="."]
-position = Vector2(-6, 4)
-shape = SubResource("RectangleShape2D_e4h44")
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_3y8bo")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0

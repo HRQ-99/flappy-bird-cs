@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class UserConfig : Node {
 
   public ConfigFile config = new();
-  const string SETTINGS_PATH = "user/settings.ini";
+  const string SETTINGS_PATH = "user://settings.ini";
 
   public enum Sections { display, audio, input }
 
@@ -26,6 +26,7 @@ public partial class UserConfig : Node {
     }
   }
 
+//TODO create proper default config
   public void CreateDefaultConfig() {
     // config.SetValue(Sections.display.ToString(), Options.Resolution.ToString(), "x");
     config.SetValue(Sections.display.ToString(), Options.WindowMode.ToString(), DisplayServer.WindowMode.ExclusiveFullscreen.ToString());

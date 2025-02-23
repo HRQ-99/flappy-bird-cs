@@ -3,8 +3,7 @@ using Godot;
 public partial class Global : Node {
   public static int GlobalAttemptNumber = 1;
   public static int GlobalScore = 0;
-  //TODO change directory to user & remove conifgDire
-  public static string SAVE_DIRE = "user/userSave.tres";
+  public static string SAVE_DIRE = "user://userSave.tres";
 
   public static AudioStreamPlayer BackgroundMusic;
   public static AudioStream backgroundMusicFile = GD.Load("res://sound/music/01.02. Minuet In G.mp3") as AudioStream;
@@ -20,7 +19,6 @@ public partial class Global : Node {
 
   [Signal] public delegate void MusicChangedEventHandler();
 
-  //TODO (get current music time) slowly fade current music then slowly fade in the next track 
   public void MusicSmoothTransition() {
     Tween musicFade = CreateTween();
     musicFade.TweenProperty(BackgroundMusic, "volume_db", -30, 4);
@@ -40,16 +38,6 @@ public partial class Global : Node {
     musicFade.TweenProperty(BackgroundMusic, "volume_db", 0, 2);
   }
 
-  public override void _EnterTree() {
-    // foreach (Node nodes in GetTree().Root.GetChildren()) {
-    //   foreach (Godot.Collections.Dictionary props in nodes.GetPropertyList()) {
-    //     foreach (System.Collections.Generic.KeyValuePair<Variant, Variant> values in props) {
-    //       GD.Print(values);
-    //     }
-    //   }
-    //   GD.Print("next node");
-    // }
-  }
   public override void _ExitTree() {
     Input.SetCustomMouseCursor(null);
     BackgroundMusic.Stream = null;

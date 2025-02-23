@@ -5,6 +5,11 @@ public partial class Shield : Area2D {
   [Signal] public delegate void ActivateShieldEventHandler();
   [Signal] public delegate void DeactivateShieldEventHandler();
 
+  Shield() {
+    // ActivateShield += ((Bird)GetNode<CharacterBody2D>("/root/Level/Bird")).ActivateShield;
+    // DeactivateShield += ((Bird)GetNode<CharacterBody2D>("/root/Level/Bird")).ShieldExpired;
+  }
+
   public override void _Ready() {
     ActivateShield += ((Bird)GetParent<CharacterBody2D>()).ActivateShield;
     DeactivateShield += ((Bird)GetParent<CharacterBody2D>()).ShieldExpired;
