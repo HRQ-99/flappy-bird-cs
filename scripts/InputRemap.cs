@@ -10,8 +10,9 @@ public partial class InputRemap : VBoxContainer {
       var remapRow = InputRemapScene.Instantiate();
       AddChild(remapRow);
       remapRow.GetNodeOrNull<Label>("KeyLabel").Text = keyPair.Value;
-      var eventName = InputMap.ActionGetEvents(keyPair.Key);
+      Godot.Collections.Array<InputEvent> eventName = InputMap.ActionGetEvents(keyPair.Key);
       if (eventName.Count() > 0) {
+          GD.Print( eventName[0].AsText().TrimSuffix(" (Physical)"));
         remapRow.GetNodeOrNull<Button>("KeyButton").Text = eventName[0].AsText().TrimSuffix(" (Physical)");
       }
       remapRow.GetNode<Button>("KeyButton").Pressed += RemapKey;
@@ -21,7 +22,7 @@ public partial class InputRemap : VBoxContainer {
   public override void _Process(double delta) {
   }
 
-  private void RemapKey() {
+  void RemapKey() {
     GD.Print("pressed");
   }
 

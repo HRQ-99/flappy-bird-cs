@@ -5,18 +5,20 @@
 [ext_resource type="Texture2D" uid="uid://dqpx24dnr71ar" path="res://art/PowerUps/speedBoostPowerUp.png" id="2_ahdyc"]
 [ext_resource type="AudioStream" uid="uid://bhwjgoal7r3ya" path="res://sound/effects/speedBoostSoundEffect_2.mp3" id="4_a14ax"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2dffg"]
-radius = 251.072
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4imv2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hl2hr"]
 shader = ExtResource("1_yh2th")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_2dffg"]
+radius = 1424.17
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ydlo"]
-radius = 21.0
-height = 86.0
+radius = 216.0
+height = 1024.0
 
 [node name="SpeedBoostPowerUp" type="Area2D" groups=["PowerUp"]]
 process_mode = 1
+material = SubResource("ShaderMaterial_hl2hr")
+scale = Vector2(0.1, 0.1)
 collision_layer = 8
 input_pickable = false
 monitorable = false
@@ -31,12 +33,12 @@ collision_layer = 8
 shape = SubResource("CircleShape2D_2dffg")
 
 [node name="SpeedBoostSprite" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_4imv2")
-scale = Vector2(0.1, 0.1)
+use_parent_material = true
+position = Vector2(22, 4)
 texture = ExtResource("2_ahdyc")
 
 [node name="SpeedBoostHitbox" type="CollisionShape2D" parent="."]
-position = Vector2(-3, -12)
+position = Vector2(-3, -62)
 shape = SubResource("CapsuleShape2D_3ydlo")
 
 [node name="Timer" type="Timer" parent="."]

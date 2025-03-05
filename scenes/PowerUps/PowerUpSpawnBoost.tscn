@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://khv45uwtowi7"]
+
+[ext_resource type="Texture2D" uid="uid://cdp0fjtamws13" path="res://art/cloud_1.png" id="1_1ffq6"]
+[ext_resource type="Script" path="res://scripts/PowerUps/PowerUpSpawnBoost.cs" id="1_6f1nr"]
+[ext_resource type="Shader" path="res://shaders/PowerUps.gdshader" id="2_0uf3a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ym38a"]
+shader = ExtResource("2_0uf3a")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tcghw"]
+radius = 124.064
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ds015"]
+radius = 46.3249
+
+[node name="PowerUpSpawnBoost" type="Area2D"]
+material = SubResource("ShaderMaterial_ym38a")
+collision_layer = 8
+input_pickable = false
+monitorable = false
+audio_bus_override = true
+audio_bus_name = &"Effects"
+script = ExtResource("1_6f1nr")
+
+[node name="MusicFadeArea" type="Area2D" parent="."]
+
+[node name="FadeHitbox" type="CollisionShape2D" parent="MusicFadeArea"]
+shape = SubResource("CircleShape2D_tcghw")
+
+[node name="PowerUpSpawnSprite" type="Sprite2D" parent="."]
+process_mode = 1
+use_parent_material = true
+texture = ExtResource("1_1ffq6")
+
+[node name="PowerUpSpawnHitbox" type="CollisionShape2D" parent="."]
+use_parent_material = true
+shape = SubResource("CircleShape2D_ds015")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 25.0
+
+[node name="SoundEffect" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="PowerActivate"]
+[connection signal="body_entered" from="MusicFadeArea" to="." method="MusicFadeOut"]

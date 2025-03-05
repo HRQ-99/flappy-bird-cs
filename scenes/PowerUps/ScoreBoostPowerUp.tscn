@@ -4,17 +4,19 @@
 [ext_resource type="Shader" path="res://shaders/PowerUps.gdshader" id="2_0axl0"]
 [ext_resource type="Texture2D" uid="uid://co7wphui4h7sm" path="res://art/PowerUps/scoreBoostPowerUp.png" id="2_80iix"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tur2f"]
-radius = 167.529
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mbddw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vovme"]
 shader = ExtResource("2_0axl0")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_tur2f"]
+radius = 2569.34
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_3y8bo"]
-radius = 57.0351
+radius = 760.016
 
 [node name="ScoreBoostPowerUp" type="Area2D" groups=["PowerUp"]]
 process_mode = 1
+material = SubResource("ShaderMaterial_vovme")
+scale = Vector2(0.1, 0.1)
 collision_layer = 8
 input_pickable = false
 monitorable = false
@@ -29,8 +31,7 @@ collision_layer = 8
 shape = SubResource("CircleShape2D_tur2f")
 
 [node name="ScoreBoostSprite" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_mbddw")
-scale = Vector2(0.1, 0.1)
+use_parent_material = true
 texture = ExtResource("2_80iix")
 
 [node name="ScoreBoostHitbox" type="CollisionShape2D" parent="."]

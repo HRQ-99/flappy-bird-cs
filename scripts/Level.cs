@@ -176,7 +176,7 @@ public partial class Level : Node2D {
     PackedScene chosenPowerUp = IPowerUps.PowerUpScenes[IPowerUps.powerUpsEnumList[powerUpIndex]];
     Area2D powerUp = chosenPowerUp.Instantiate<Area2D>();
 
-    powerUp.Position = new Vector2(nextPipeLocationX + 40, 500);
+    powerUp.Position = new Vector2(nextPipeLocationX + (movePipeDistanceX / 2), 500);
     AddChild(powerUp);
   }
 }

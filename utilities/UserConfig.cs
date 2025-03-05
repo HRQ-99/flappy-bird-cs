@@ -28,10 +28,20 @@ public partial class UserConfig : Node {
 
 //TODO create proper default config
   public void CreateDefaultConfig() {
-    // config.SetValue(Sections.display.ToString(), Options.Resolution.ToString(), "x");
+    config.SetValue(Sections.display.ToString(), Options.Resolution.ToString(), DisplayServer.WindowGetSize()[0]+"x"+DisplayServer.WindowGetSize()[1]);
     config.SetValue(Sections.display.ToString(), Options.WindowMode.ToString(), DisplayServer.WindowMode.ExclusiveFullscreen.ToString());
     config.SetValue(Sections.display.ToString(), Options.VSync.ToString(), false);
     config.SetValue(Sections.display.ToString(), Options.CustomCursor.ToString(), true);
+
+    config.SetValue(Sections.audio.ToString(),Options.MasterVolume.ToString(), 1);
+    config.SetValue(Sections.audio.ToString(),Options.MusicVolume.ToString(), 1);
+    config.SetValue(Sections.audio.ToString(),Options.EffectsVolume.ToString(), 1);
+
+    foreach(string InputName in Config.InputkeyArray){
+        Godot.Collections.Array<InputEvent> eventName = InputMap.ActionGetEvents(InputName);
+        config.SetValue(Sections.input.ToString(), InputName, Config.DefaultInputKeys[InputName].ToString());
+    }
+
     config.Save(SETTINGS_PATH);
   }
 

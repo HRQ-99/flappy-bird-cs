@@ -3,12 +3,13 @@ using System.Linq;
 
 public partial class Bird : CharacterBody2D {
 
-  [Export] float fallSpeed = 100f;
-  [Export] float flySpeed = -1500f;
-  [Export] float moveSpeed = 150f;
-  [Export] float diveMultiplier = 5;
+  [Export] float _fallSpeed = 100f;
+  [Export] float _flySpeed = -1500f;
+  [Export] float _moveSpeed = 150f;
+  [Export] float _diveMultiplier = 5;
 
-  static CharacterBody2D s_bird;
+   CharacterBody2D _bird;
+  // TODO make static getter/setter that also toggles the Godmode label
   public static bool Invincible = false;
   public static float SpeedMultiplier = 1.0f;
   public static float gravityMultiplier = 1.0f;
@@ -18,25 +19,29 @@ public partial class Bird : CharacterBody2D {
 
   enum RotationDirection { Up = -1, Down = 1 }
 
-  Area2D _shield { set; get; }
+  Area2D Shield { set; get; }
 
   public override void _Ready() {
-    s_bird = this;
+    _bird = this;
     Invincible = false;
     SpeedMultiplier = 1;
     gravityMultiplier = 1;
   }
 
   public override void _PhysicsProcess(double delta) {
-    Velocity = new Vector2(moveSpeed * SpeedMultiplier, fallSpeed * gravityMultiplier);
+    Velocity = new Vector2(_moveSpeed * SpeedMultiplier, _fallSpeed * gravityMultiplier);
+    int downwardVelocity=0;
 
     if (Input.IsActionJustPressed("Flap")) {
       SpriteRotation((int)RotationDirection.Up);
-      Velocity = new Vector2(0, flySpeed);
+      Velocity = new Vector2(0, _flySpeed);
     }
-    else if (Input.IsActionJustPressed("Dive")) {
+    else if (Input.IsActionPressed("Dive")) {
       SpriteRotation((int)RotationDirection.Down);
-      Velocity = new Vector2(moveSpeed, fallSpeed * diveMultiplier);
+      Velocity = new Vector2(_moveSpeed, _fallSpeed * _diveMultiplier);
+    }
+    else if (Input.IsActionJustReleased("Dive")){
+        downwardVelocity=0;
     }
 
     if (Input.IsActionJustPressed("GodMode")) {
@@ -45,10 +50,10 @@ public partial class Bird : CharacterBody2D {
     }
 
     MoveAndSlide();
-    int collisionCount = s_bird.GetSlideCollisionCount();
+    int collisionCount = _bird.GetSlideCollisionCount();
 
     if (!Invincible && collisionCount > 0) {
-      KinematicCollision2D lastHit = s_bird.GetLastSlideCollision();
+      KinematicCollision2D lastHit = _bird.GetLastSlideCollision();
 
       if (lastHit != null) {
         Node collider = lastHit.GetCollider() as Node;
@@ -61,7 +66,7 @@ public partial class Bird : CharacterBody2D {
     }
 
     if (PipeDestroyerActive && collisionCount > 0) {
-      KinematicCollision2D lastHit = s_bird.GetLastSlideCollision();
+      KinematicCollision2D lastHit = _bird.GetLastSlideCollision();
 
       if (lastHit != null) {
         Node2D collider = lastHit.GetCollider() as Node2D;
@@ -93,7 +98,7 @@ public partial class Bird : CharacterBody2D {
   }
 
   public void IncreaseBirdMoveSpeed() {
-    moveSpeed = DifficultyManager.BirdMoveSpeed[DifficultyManager.DifficultyStage];
+    _moveSpeed = DifficultyManager.BirdMoveSpeed[DifficultyManager.DifficultyStage];
   }
 
   public void ActivateShield() {
@@ -104,5 +109,13 @@ public partial class Bird : CharacterBody2D {
   public void ShieldExpired() {
     ShieldActive = false;
     Invincible = false;
+  }
+
+  public void SpeedBoostCameraEffect(){
+      Camera2D birdCamera= GetNode<Camera2D>("Camera2D");
+      float initalXOffset=birdCamera.Offset.X;
+      Tween cameraTween=CreateTween();
+      cameraTween.TweenProperty(birdCamera, "offset", new Vector2(initalXOffset+400,0), 1.5);
+      cameraTween.TweenProperty(birdCamera, "offset", new Vector2(initalXOffset,0), 6);
   }
 }

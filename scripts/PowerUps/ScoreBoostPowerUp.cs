@@ -1,9 +1,8 @@
 using Godot;
 
 public partial class ScoreBoostPowerUp : Area2D, IPowerUps {
-  double RegularScoreTime;
-  double scoreBoostMultiplier = 0.5;
 
+  double scoreBoostMultiplier = 0.5;
   Timer timerNode;
 
   public void PowerActivate(Node2D bodyEntered) {
