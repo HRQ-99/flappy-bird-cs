@@ -9,28 +9,28 @@ public partial class Bird : CharacterBody2D {
   [Export] float _diveMultiplier = 5;
 
    CharacterBody2D _bird;
+   //Area2D _shield;
+
   // TODO make static getter/setter that also toggles the Godmode label
   public static bool Invincible = false;
   public static float SpeedMultiplier = 1.0f;
-  public static float gravityMultiplier = 1.0f;
+  public static float GravityMultiplier = 1.0f;
 
   public static bool PipeDestroyerActive = false;
   public static bool ShieldActive = false;
 
   enum RotationDirection { Up = -1, Down = 1 }
 
-  Area2D Shield { set; get; }
 
   public override void _Ready() {
     _bird = this;
     Invincible = false;
     SpeedMultiplier = 1;
-    gravityMultiplier = 1;
+    GravityMultiplier = 1;
   }
 
   public override void _PhysicsProcess(double delta) {
-    Velocity = new Vector2(_moveSpeed * SpeedMultiplier, _fallSpeed * gravityMultiplier);
-    int downwardVelocity=0;
+    Velocity = new Vector2(_moveSpeed * SpeedMultiplier, _fallSpeed * GravityMultiplier);
 
     if (Input.IsActionJustPressed("Flap")) {
       SpriteRotation((int)RotationDirection.Up);
@@ -39,9 +39,6 @@ public partial class Bird : CharacterBody2D {
     else if (Input.IsActionPressed("Dive")) {
       SpriteRotation((int)RotationDirection.Down);
       Velocity = new Vector2(_moveSpeed, _fallSpeed * _diveMultiplier);
-    }
-    else if (Input.IsActionJustReleased("Dive")){
-        downwardVelocity=0;
     }
 
     if (Input.IsActionJustPressed("GodMode")) {
@@ -101,12 +98,12 @@ public partial class Bird : CharacterBody2D {
     _moveSpeed = DifficultyManager.BirdMoveSpeed[DifficultyManager.DifficultyStage];
   }
 
-  public void ActivateShield() {
+  public static void ActivateShield() {
     ShieldActive = true;
     Invincible = true;
   }
 
-  public void ShieldExpired() {
+  public static void ShieldExpired() {
     ShieldActive = false;
     Invincible = false;
   }

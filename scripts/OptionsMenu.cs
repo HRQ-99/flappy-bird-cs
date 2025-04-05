@@ -4,18 +4,18 @@ using System.Collections.Generic;
 public partial class OptionsMenu : Control {
   public Config ConfigObj = new();
   public UserConfig UserConfigObj = new();
-  private OptionButton ResolutionButton;
+  private OptionButton _resolutionButton;
 
-  VBoxContainer DisplayOptions;
-  VBoxContainer AudioOptions;
-  VBoxContainer InputOptions;
+  VBoxContainer _displayOptions;
+  VBoxContainer _audioOptions;
+  VBoxContainer _inputOptions;
 
-  Variant customCursor = ResourceLoader.Load("res://art/custom_cursor.png");
+  Variant _customCursor = ResourceLoader.Load("res://art/custom_cursor.png");
 
   enum AudioBuses { Master, Music, Effects }
 
   public void ChangeResolution(int index) {
-    string resolutionChosen = DisplayOptions.GetNode<OptionButton>("ResolutionContainer/ResolutionOptionButton").GetItemText(index);
+    string resolutionChosen = _displayOptions.GetNode<OptionButton>("ResolutionContainer/ResolutionOptionButton").GetItemText(index);
     switch (index) {
       case 0:
         DisplayServer.WindowSetSize(Config.Resolutions[resolutionChosen]);
@@ -38,28 +38,28 @@ public partial class OptionsMenu : Control {
   }
 
   public void ChangeWindowMode(int index) {
-    string WindowModeChosen = DisplayOptions.GetNode<OptionButton>("WindowModeContainer/WindowModeOptionButton").GetItemText(index);
-    DisplayOptions.GetNode<HSplitContainer>("ResolutionContainer").Visible = false;
+    string windowModeChosen = _displayOptions.GetNode<OptionButton>("WindowModeContainer/WindowModeOptionButton").GetItemText(index);
+    _displayOptions.GetNode<HSplitContainer>("ResolutionContainer").Visible = false;
     switch (index) {
       case 0:
-        DisplayServer.WindowSetMode(Config.WindowModes[WindowModeChosen]);
-        ConfigObj.WindowMode = Config.WindowModes[WindowModeChosen];
+        DisplayServer.WindowSetMode(Config.WindowModes[windowModeChosen]);
+        ConfigObj.WindowMode = Config.WindowModes[windowModeChosen];
         break;
       case 1:
-        DisplayServer.WindowSetMode(Config.WindowModes[WindowModeChosen]);
-        ConfigObj.WindowMode = Config.WindowModes[WindowModeChosen];
+        DisplayServer.WindowSetMode(Config.WindowModes[windowModeChosen]);
+        ConfigObj.WindowMode = Config.WindowModes[windowModeChosen];
         break;
       case 2:
-        DisplayServer.WindowSetMode(Config.WindowModes[WindowModeChosen]);
-        ConfigObj.WindowMode = Config.WindowModes[WindowModeChosen];
-        DisplayOptions.GetNode<HSplitContainer>("ResolutionContainer").Visible = true;
+        DisplayServer.WindowSetMode(Config.WindowModes[windowModeChosen]);
+        ConfigObj.WindowMode = Config.WindowModes[windowModeChosen];
+        _displayOptions.GetNode<HSplitContainer>("ResolutionContainer").Visible = true;
         break;
       case 3:
-        DisplayServer.WindowSetMode(Config.WindowModes[WindowModeChosen]);
-        ConfigObj.WindowMode = Config.WindowModes[WindowModeChosen];
+        DisplayServer.WindowSetMode(Config.WindowModes[windowModeChosen]);
+        ConfigObj.WindowMode = Config.WindowModes[windowModeChosen];
         break;
     }
-    UserConfigObj.SaveDisplayConfig(UserConfig.Options.WindowMode.ToString(), WindowModeChosen.Replace(" ", ""));
+    UserConfigObj.SaveDisplayConfig(UserConfig.Options.WindowMode.ToString(), windowModeChosen.Replace(" ", ""));
   }
 
   public void ToggleVSync(bool enabledVSync) {
@@ -76,7 +76,7 @@ public partial class OptionsMenu : Control {
 
   public void ToggleCustomCursor(bool enabledCustomCursor) {
     if (enabledCustomCursor) {
-      DisplayServer.CursorSetCustomImage((Resource)customCursor);
+      DisplayServer.CursorSetCustomImage((Resource)_customCursor);
     }
     else {
       DisplayServer.CursorSetCustomImage(null);
@@ -86,7 +86,7 @@ public partial class OptionsMenu : Control {
 
   private void ChangeMasterVolume(bool valueChanged) {
     if (valueChanged) {
-      float sliderValue = (float)AudioOptions.GetNode<HSlider>("MasterVolumeContainer/MasterVolumeSlider").Value / 100;
+      float sliderValue = (float)_audioOptions.GetNode<HSlider>("MasterVolumeContainer/MasterVolumeSlider").Value / 100;
       int newVolume = (int)Mathf.LinearToDb(sliderValue);
       UserConfigObj.SaveAudioConfig(UserConfig.Options.MasterVolume.ToString(), sliderValue);
       AudioServer.SetBusVolumeDb((int)AudioBuses.Master, newVolume);
@@ -95,7 +95,7 @@ public partial class OptionsMenu : Control {
 
   private void ChangeMusicVolume(bool valueChanged) {
     if (valueChanged) {
-      float sliderValue = (float)AudioOptions.GetNode<HSlider>("MusicVolumeContainer/MusicVolumeSlider").Value / 100;
+      float sliderValue = (float)_audioOptions.GetNode<HSlider>("MusicVolumeContainer/MusicVolumeSlider").Value / 100;
       int newVolume = (int)Mathf.LinearToDb(sliderValue);
       UserConfigObj.SaveAudioConfig(UserConfig.Options.MusicVolume.ToString(), sliderValue);
       AudioServer.SetBusVolumeDb((int)AudioBuses.Music, newVolume);
@@ -104,7 +104,7 @@ public partial class OptionsMenu : Control {
 
   private void ChangeEffectsVolume(bool valueChanged) {
     if (valueChanged) {
-      float sliderValue = (float)AudioOptions.GetNode<HSlider>("EffectsVolumeContainer/EffectsVolumeSlider").Value / 100;
+      float sliderValue = (float)_audioOptions.GetNode<HSlider>("EffectsVolumeContainer/EffectsVolumeSlider").Value / 100;
       int newVolume = (int)Mathf.LinearToDb(sliderValue);
       UserConfigObj.SaveAudioConfig(UserConfig.Options.EffectsVolume.ToString(), sliderValue);
       AudioServer.SetBusVolumeDb((int)AudioBuses.Effects, newVolume);
@@ -120,32 +120,32 @@ public partial class OptionsMenu : Control {
   //if resolution was not found problem comes and others are not set
   public void SetCurrentSelected() {
     Dictionary<string, Variant> displaySettings = UserConfigObj.LoadDisplayConfig();
-    OptionButton option = DisplayOptions.GetNode<OptionButton>("ResolutionContainer/ResolutionOptionButton");
+    OptionButton option = _displayOptions.GetNode<OptionButton>("ResolutionContainer/ResolutionOptionButton");
     for (int i = 0; i < option.ItemCount; i++) {
       if (option.GetItemText(i).ToLower().Equals(displaySettings[UserConfig.Options.Resolution.ToString()].ToString())) {
         option.Select(i);
       }
     }
-    DisplayOptions.GetNode<CheckBox>("V-SyncContainer/VsyncOptionButton").ButtonPressed = (bool)displaySettings[UserConfig.Options.VSync.ToString()];
+    _displayOptions.GetNode<CheckBox>("V-SyncContainer/VsyncOptionButton").ButtonPressed = (bool)displaySettings[UserConfig.Options.VSync.ToString()];
     ToggleVSync((bool)displaySettings[UserConfig.Options.VSync.ToString()]);
 
-    DisplayOptions.GetNode<CheckBox>("CustomCursorContainer/CustomCursorOptionButton").ButtonPressed = (bool)displaySettings[UserConfig.Options.CustomCursor.ToString()];
+    _displayOptions.GetNode<CheckBox>("CustomCursorContainer/CustomCursorOptionButton").ButtonPressed = (bool)displaySettings[UserConfig.Options.CustomCursor.ToString()];
     ToggleCustomCursor((bool)displaySettings[UserConfig.Options.CustomCursor.ToString()]);
 
-    Dictionary<string, Variant> AudioSettings = UserConfigObj.LoadAudioConfig();
-    AudioOptions.GetNode<HSlider>("MasterVolumeContainer/MasterVolumeSlider").Value = (double)AudioSettings[UserConfig.Options.MasterVolume.ToString()] * 100;
-    AudioOptions.GetNode<HSlider>("MusicVolumeContainer/MusicVolumeSlider").Value = (double)AudioSettings[UserConfig.Options.MusicVolume.ToString()] * 100;
-    AudioOptions.GetNode<HSlider>("EffectsVolumeContainer/EffectsVolumeSlider").Value = (double)AudioSettings[UserConfig.Options.EffectsVolume.ToString()] * 100;
+    Dictionary<string, Variant> audioSettings = UserConfigObj.LoadAudioConfig();
+    _audioOptions.GetNode<HSlider>("MasterVolumeContainer/MasterVolumeSlider").Value = (double)audioSettings[UserConfig.Options.MasterVolume.ToString()] * 100;
+    _audioOptions.GetNode<HSlider>("MusicVolumeContainer/MusicVolumeSlider").Value = (double)audioSettings[UserConfig.Options.MusicVolume.ToString()] * 100;
+    _audioOptions.GetNode<HSlider>("EffectsVolumeContainer/EffectsVolumeSlider").Value = (double)audioSettings[UserConfig.Options.EffectsVolume.ToString()] * 100;
 
-    AudioServer.SetBusVolumeDb((int)AudioBuses.Master, Mathf.LinearToDb((float)AudioSettings[UserConfig.Options.MasterVolume.ToString()]));
-    AudioServer.SetBusVolumeDb((int)AudioBuses.Music, Mathf.LinearToDb((float)AudioSettings[UserConfig.Options.MusicVolume.ToString()]));
-    AudioServer.SetBusVolumeDb((int)AudioBuses.Effects, Mathf.LinearToDb((float)AudioSettings[UserConfig.Options.EffectsVolume.ToString()]));
+    AudioServer.SetBusVolumeDb((int)AudioBuses.Master, Mathf.LinearToDb((float)audioSettings[UserConfig.Options.MasterVolume.ToString()]));
+    AudioServer.SetBusVolumeDb((int)AudioBuses.Music, Mathf.LinearToDb((float)audioSettings[UserConfig.Options.MusicVolume.ToString()]));
+    AudioServer.SetBusVolumeDb((int)AudioBuses.Effects, Mathf.LinearToDb((float)audioSettings[UserConfig.Options.EffectsVolume.ToString()]));
   }
 
   public override void _Ready() {
-    DisplayOptions = GetNode<VBoxContainer>("TabContainer/Display/DisplayVBox");
-    AudioOptions = GetNode<VBoxContainer>("TabContainer/Audio/AudioVBox");
-    InputOptions = GetNode<VBoxContainer>("TabContainer/Input/InputVBox");
+    _displayOptions = GetNode<VBoxContainer>("TabContainer/Display/DisplayVBox");
+    _audioOptions = GetNode<VBoxContainer>("TabContainer/Audio/AudioVBox");
+    _inputOptions = GetNode<VBoxContainer>("TabContainer/Input/InputVBox");
     SetCurrentSelected();
     UserConfig obj = new();
     obj.LoadDisplayConfig();

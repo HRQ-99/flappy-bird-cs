@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/Bird.cs" id="4_qn8do"]
 [ext_resource type="Texture2D" uid="uid://ln65np1v4x60" path="res://art/background_1.png.png" id="5_43svf"]
 [ext_resource type="PackedScene" uid="uid://yhbldw448mdq" path="res://scenes/PausedScreen.tscn" id="6_8pu2g"]
-[ext_resource type="PackedScene" uid="uid://khv45uwtowi7" path="res://scenes/PowerUps/PowerUpSpawnBoost.tscn" id="7_3pof7"]
+[ext_resource type="PackedScene" uid="uid://d3svps2ikhx2q" path="res://scenes/PowerUps/PipeDestroyerPowerUp.tscn" id="7_yp0iy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1ruf"]
 shader = ExtResource("2_xefbw")
@@ -97,8 +97,8 @@ size_flags_vertical = 4
 [node name="PausedScreenButtonContainer" parent="UI/PausedScreenLayer/PausedScreen" index="0"]
 visible = false
 
-[node name="PowerUpSpawnBoost" parent="." instance=ExtResource("7_3pof7")]
-position = Vector2(846.5, 441)
+[node name="PipeDestroyerPowerUp" parent="." instance=ExtResource("7_yp0iy")]
+position = Vector2(812.5, 433)
 
 [connection signal="timeout" from="ScoreTimer" to="." method="ScoreManager"]
 [connection signal="timeout" from="PowerUpSpawnTimer" to="." method="SpawnPowerUp"]

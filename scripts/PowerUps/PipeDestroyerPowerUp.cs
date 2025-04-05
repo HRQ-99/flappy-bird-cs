@@ -1,17 +1,17 @@
 using Godot;
 
 public partial class PipeDestroyerPowerUp : Area2D, IPowerUps {
-  const float birdScaleMultiplier = 8;
-  const float birdSpeedMultiplier = 2;
+  const float BirdScaleMultiplier = 8;
+  const float BirdSpeedMultiplier = 3;
 
   public void PowerActivate(Node2D bodyEntered) {
     if (bodyEntered.IsInGroup("Bird")) {
       Bird.Invincible = true;
-      Bird.SpeedMultiplier *= birdSpeedMultiplier;
+      Bird.SpeedMultiplier *= BirdSpeedMultiplier;
       Bird.PipeDestroyerActive = true;
 
       Tween birdScaleTween = CreateTween();
-      birdScaleTween.TweenProperty(bodyEntered, "scale", bodyEntered.Scale * birdScaleMultiplier, 1);
+      birdScaleTween.TweenProperty(bodyEntered, "scale", bodyEntered.Scale * BirdScaleMultiplier, 1);
 
       SetDeferred("monitoring", false);
       Visible = false;
@@ -38,10 +38,10 @@ public partial class PipeDestroyerPowerUp : Area2D, IPowerUps {
     Tween birdScaleTween = CreateTween();
     CharacterBody2D bird = GetNode<CharacterBody2D>("/root/Level/Bird");
 
-    birdScaleTween.TweenProperty(bird, "scale", bird.Scale / birdScaleMultiplier, 1);
+    birdScaleTween.TweenProperty(bird, "scale", bird.Scale / BirdScaleMultiplier, 1);
     Bird.PipeDestroyerActive = false;
     GetNode<AudioStreamPlayer2D>("SoundEffect").Play();
-    Bird.SpeedMultiplier /= birdSpeedMultiplier;
+    Bird.SpeedMultiplier /= BirdSpeedMultiplier;
     birdScaleTween.Finished += DisableInvinciblity;
   }
 
